@@ -228,8 +228,8 @@ img {
 }
 
 .nav__close:hover{
-  color: var(--first-color);
-}
+  color: var(--first-color);  /* dernière étapes faites vidéo -> 22:54 */
+}    
 
 
 /* show menu */
