@@ -1,0 +1,172 @@
+---
+import PixelArt from './PixelArt.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  active?: 'projets' | 'veille' | null;
+  variant?: 'home' | 'inner';
+}
+const { active = null, variant = 'inner' } = Astro.props;
+
+const links = [
+  { href: '/projets', label: 'Projets', key: 'projets' },
+  { href: '/#homelab', label: 'Homelab' },
+  { href: '/#parcours', label: 'Parcours' },
+  { href: '/veille', label: 'Veille', key: 'veille' },
+  { href: '/#contact', label: 'Contact' },
+];
+---
+<header class="nav" data-nav>
+  <div class="nav__bar container">
+    <a href="/" class="nav__brand" aria-label={`${SITE.name} — accueil`}>
+      <PixelArt art="emblem" px={1.6} />
+      <span class="nav__name">{SITE.name}</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Navigation principale">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={['nav__link', { 'is-active': l.key === active }]}
+          aria-current={l.key === active ? 'page' : undefined}
+        >
+          {l.key === active && <span class="sq sq--6 nav__dot" aria-hidden="true" />}
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="nav__actions">
+      <ThemeToggle />
+      {variant === 'home' && (
+        <a href={SITE.cv} class="btn btn--sm btn--secondary nav__cv">
+          CV <span class="nav__pdf">PDF</span>
+        </a>
+      )}
+      <a href="/#contact" class="btn btn--sm btn--primary nav__cta">Me contacter</a>
+      <button
+        type="button"
+        class="nav__menu"
+        aria-expanded="false"
+        aria-controls="nav-panel"
+        data-menu-btn
+      >
+        <span class="nav__bars" aria-hidden="true"><span></span><span></span></span>
+        <span data-menu-label>Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="nav-panel" class="nav__panel" hidden data-menu-panel>
+    {links.slice(0, 4).map((l) => (
+      <a href={l.href} class="nav__plink" aria-current={l.key === active ? 'page' : undefined} data-menu-close>
+        {l.label}
+      </a>
+    ))}
+    <div class="nav__pbtns">
+      <a href="/#contact" class="btn btn--primary nav__pcta" data-menu-close>Me contacter</a>
+      <a href={SITE.cv} class="btn btn--secondary nav__pcv">CV</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .nav__brand { display: flex; align-items: center; gap: 12px; color: var(--fg); }
+  .nav__name { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
+
+  .nav__links { display: flex; align-items: center; gap: 32px; font-size: 15px; }
+  .nav__link { display: inline-flex; align-items: center; gap: 8px; color: var(--fg); }
+  .nav__link:not(.is-active):hover {
+    text-decoration: underline;
+    text-decoration-color: #FA500F;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+  }
+  .nav__dot { background: #FA500F; }
+
+  .nav__actions { display: flex; align-items: center; gap: 8px; }
+  .nav__pdf { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
+
+  .nav__menu {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: 6px;
+    border: 1px solid var(--line2);
+    background: transparent;
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .nav__bars { display: grid; gap: 3px; }
+  .nav__bars span { width: 14px; height: 2px; background: currentColor; }
+
+  .nav__panel {
+    border-top: 1px solid var(--line);
+    padding: 8px var(--gutter) 20px;
+    flex-direction: column;
+  }
+  .nav__panel:not([hidden]) { display: flex; }
+  .nav__plink {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+  }
+  .nav__pbtns { display: flex; gap: 8px; margin-top: 18px; }
+  .nav__pcta { flex: 1; }
+  .nav__pcv { flex: 0 0 96px; }
+
+  @media (max-width: 899.98px) {
+    .nav__links, .nav__cv, .nav__cta { display: none; }
+    .nav__menu { display: inline-flex; }
+    .nav__actions :global(.theme-toggle) { width: 44px; height: 44px; }
+  }
+  @media (min-width: 900px) {
+    .nav__panel { display: none !important; }
+  }
+</style>
+
+<script>
+  function initMenu() {
+    const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+    const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
+    const label = document.querySelector<HTMLElement>('[data-menu-label]');
+    if (!btn || !panel || !label) return;
+    const set = (open: boolean) => {
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? 'Fermer' : 'Menu';
+    };
+    btn.addEventListener('click', () => set(panel.hidden));
+    panel.querySelectorAll('[data-menu-close]').forEach((a) => a.addEventListener('click', () => set(false)));
+    const ac = new AbortController();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) { set(false); btn.focus(); }
+    }, { signal: ac.signal });
+    document.addEventListener('astro:before-swap', () => ac.abort(), { once: true });
+  }
+  document.addEventListener('astro:page-load', initMenu);
+</script>

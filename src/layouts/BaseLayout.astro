@@ -1,0 +1,138 @@
+---
+import '@fontsource/geist-sans/400.css';
+import '@fontsource/geist-sans/500.css';
+import '@fontsource/geist-sans/600.css';
+import '@fontsource/geist-mono/400.css';
+import '@fontsource/geist-mono/500.css';
+import '../styles/tokens.css';
+import { ClientRouter } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer, { type FooterLink } from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Lien actif de la nav */
+  active?: 'projets' | 'veille' | null;
+  /** Nav d'accueil (CV + contact) ou nav des pages internes (contact seul) */
+  navVariant?: 'home' | 'inner';
+  footer?: 'full' | 'compact';
+  footerLinks?: FooterLink[];
+  noindex?: boolean;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = SITE.description,
+  active = null,
+  navVariant = 'inner',
+  footer = 'compact',
+  footerLinks,
+  noindex = false,
+  ogImage = '/og.png',
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE.jobTitle}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogUrl = new URL(ogImage, Astro.site);
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  jobTitle: SITE.jobTitle,
+  email: `mailto:${SITE.email}`,
+  url: SITE.url,
+  sameAs: [SITE.linkedin, SITE.github],
+  knowsAbout: ['Windows Server', 'Hyper-V', 'Active Directory', 'Veeam', 'Proxmox VE', 'ZFS', 'Linux', 'Docker', 'k3s', 'Tailscale'],
+  knowsLanguage: 'fr',
+};
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#F2F1E8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#151524" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+
+    <!-- Thème : localStorage > prefers-color-scheme. Appliqué avant peinture et après chaque navigation. -->
+    <script is:inline>
+      (function () {
+        function apply(doc) {
+          var t = null;
+          try { t = localStorage.getItem('theme'); } catch (e) {}
+          if (t === 'light' || t === 'dark') doc.documentElement.dataset.theme = t;
+          else delete doc.documentElement.dataset.theme;
+        }
+        apply(document);
+        document.addEventListener('astro:before-swap', function (e) { apply(e.newDocument); });
+      })();
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <Nav active={active} variant={navVariant} />
+    <main id="contenu" tabindex="-1">
+      <slot />
+    </main>
+    <Footer variant={footer} links={footerLinks} />
+
+    <script>
+      // Révélation des titres : [data-rt] → lignes [data-rl], une seule fois.
+      function reveal() {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const io = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              e.target.querySelectorAll<HTMLElement>('[data-rl]').forEach((l, i) =>
+                l.animate(
+                  [
+                    { transform: 'translateY(105%)', opacity: 0 },
+                    { transform: 'translateY(0)', opacity: 1 },
+                  ],
+                  { duration: 600, delay: i * 80, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' },
+                ),
+              );
+              io.unobserve(e.target);
+            }),
+          { threshold: 0.15 },
+        );
+        document.querySelectorAll('[data-rt]').forEach((n) => io.observe(n));
+        document.addEventListener('astro:before-swap', () => io.disconnect(), { once: true });
+      }
+      document.addEventListener('astro:page-load', reveal);
+    </script>
+  </body>
+</html>
+
+<style>
+  main { display: block; outline: none; }
+</style>

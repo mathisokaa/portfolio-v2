@@ -1,0 +1,39 @@
+---
+// Mascotte robot-serveur 16×16 : a → b → a → c à 4 i/s. Figée sur « a » si reduced-motion.
+import PixelArt from './PixelArt.astro';
+import type { Ramp } from '../lib/pixel';
+
+interface Props { px?: number; ramp?: Ramp; fps?: number; grid?: 'light' | 'dark'; class?: string }
+const { px = 4, ramp = 'sunset', fps = 4, grid, class: cls } = Astro.props;
+---
+<span class:list={['mascot', cls]} data-mascot data-fps={fps} data-frame="a" style={`--s:${px * 16}px`} role="img" aria-label="Mascotte : petit robot-serveur">
+  <PixelArt art="mascot-a" ramp={ramp} px={px} grid={grid} class="mascot__f mascot__f--a" />
+  <PixelArt art="mascot-b" ramp={ramp} px={px} grid={grid} class="mascot__f mascot__f--b" />
+  <PixelArt art="mascot-c" ramp={ramp} px={px} grid={grid} class="mascot__f mascot__f--c" />
+</span>
+
+<style>
+  .mascot { position: relative; display: inline-block; flex: none; width: var(--s); height: var(--s); line-height: 0; }
+  .mascot :global(.mascot__f) { position: absolute; inset: 0; visibility: hidden; }
+  .mascot[data-frame='a'] :global(.mascot__f--a),
+  .mascot[data-frame='b'] :global(.mascot__f--b),
+  .mascot[data-frame='c'] :global(.mascot__f--c) { visibility: visible; }
+</style>
+
+<script>
+  const SEQ = ['a', 'b', 'a', 'c'];
+  function init() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll<HTMLElement>('[data-mascot]:not([data-live])').forEach((el) => {
+      el.dataset.live = '1';
+      let i = 0;
+      const fps = Number(el.dataset.fps) || 4;
+      const t = window.setInterval(() => {
+        if (!el.isConnected) return window.clearInterval(t);
+        i = (i + 1) % SEQ.length;
+        el.dataset.frame = SEQ[i];
+      }, 1000 / fps);
+    });
+  }
+  document.addEventListener('astro:page-load', init);
+</script>
