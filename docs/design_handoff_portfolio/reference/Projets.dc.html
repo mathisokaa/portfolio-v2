@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="view-transition" content="same-origin"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"><script src="pixel.js"></script><style>@view-transition{navigation:auto}*{box-sizing:border-box}html,body{margin:0;background:#F2F1E8}a{color:inherit;text-decoration:none}a:hover{text-decoration:none}::selection{background:#FA500F;color:#FFFFFF}@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}</style></helmet>
+<div style="background:#F2F1E8;color:#151524;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden">
+
+  <header style="position:sticky;top:0;z-index:50;background:#F2F1E8;border-bottom:1px solid rgba(21,21,36,.1)">
+    <div style="max-width:1440px;margin:0 auto;padding:12px clamp(20px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="Accueil.dc.html" style="display:flex;align-items:center;gap:12px">
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="1.6" hint-size="32px,32px"></x-import>
+        <span style="font-size:17px;font-weight:600;letter-spacing:-.02em">{{ name }}</span>
+      </a>
+      <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:32px;font-size:15px">
+          <a href="Projets.dc.html" style="display:inline-flex;align-items:center;gap:8px"><span style="width:6px;height:6px;background:#FA500F"></span>Projets</a>
+          <a href="Accueil.dc.html#homelab" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Homelab</a>
+          <a href="Accueil.dc.html#parcours" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Parcours</a>
+          <a href="Veille.dc.html" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Veille</a>
+          <a href="Accueil.dc.html#contact" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Contact</a>
+        </nav>
+      </sc-if>
+      <a href="Accueil.dc.html#contact" style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;background:#151524;color:#F2F1E8;font-size:14px;font-weight:500" style-hover="opacity:.86">Me contacter</a>
+    </div>
+  </header>
+
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(24px,3vw,40px) clamp(20px,4vw,56px) 0">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">
+      <a href="Accueil.dc.html" style="display:flex;gap:10px" style-hover="color:#151524"><span style="color:#FA500F">←</span>Accueil / Projets</a>
+      <span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;background:{{ d.dot }}"></span>{{ d.label }}</span>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,4vw,56px);margin-top:clamp(28px,4vw,48px);align-items:stretch">
+      <div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;gap:24px">
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">{{ d.index }}</span>
+        <h1 style="margin:0;font-size:clamp(52px,7vw,108px);font-weight:500;line-height:.93;letter-spacing:-.045em">
+          <span style="display:block">{{ d.l1 }}</span>
+          <span style="display:block">{{ d.l2 }}</span>
+        </h1>
+        <p style="margin:0;max-width:30em;font-size:clamp(17px,1.4vw,20px);line-height:1.5;color:#4A4A5C;text-wrap:pretty">{{ d.text }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ d.skills }}" as="s" hint-placeholder-count="5">
+            <span style="display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid rgba(21,21,36,.14);border-radius:6px;background:#FFFFFF;font-size:14px;font-weight:500"><span style="width:6px;height:6px;background:{{ d.dot }}"></span>{{ s }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="flex:1 1 460px;min-width:0;position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#EAE9DF;display:grid;place-items:center;border:1px solid rgba(21,21,36,.1)">
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(21,21,36,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(21,21,36,.1) 1px,transparent 1px);background-size:16.666% 25%"></div>
+        <div style="position:absolute;width:130%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(21,21,36,.16);left:-70%;top:-30%"></div>
+        <span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Fig. {{ d.fig }}</span>
+        <span style="position:absolute;right:12px;bottom:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">{{ countLabel }}</span>
+        <span style="position:absolute;right:12px;top:12px;writing-mode:vertical-rl;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">{{ d.vert }}</span>
+        <div style="position:relative"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="{{ d.art }}" ramp="{{ d.ramp }}" px="13" hint-size="260px,260px"></x-import></div>
+      </div>
+    </div>
+  </section>
+
+  <div style="position:sticky;top:65px;z-index:40;background:#F2F1E8;border-bottom:1px solid rgba(21,21,36,.1);margin-top:clamp(48px,6vw,80px);border-top:1px solid rgba(21,21,36,.1)">
+    <div style="max-width:1440px;margin:0 auto;padding:12px clamp(20px,4vw,56px);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <button onClick="{{ t.go }}" style="flex:none;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:6px;border:1px solid {{ t.border }};background:{{ t.bg }};color:{{ t.fg }};font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer"><span style="width:6px;height:6px;background:{{ t.dot }}"></span>{{ t.label }}<span style="opacity:.7">{{ t.count }}</span></button>
+      </sc-for>
+    </div>
+  </div>
+
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(32px,4vw,48px) clamp(20px,4vw,56px) 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:20px">
+      <sc-for list="{{ list }}" as="p" hint-placeholder-count="3">
+        <a href="{{ p.href }}" data-hover-host="1" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid rgba(21,21,36,.1);border-radius:8px;overflow:hidden;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1)" style-hover="transform:translateY(-6px);box-shadow:0 28px 48px -28px rgba(21,21,36,.35)">
+          <div style="position:relative;aspect-ratio:5/4;background:#EAE9DF;display:grid;place-items:center;border-bottom:1px solid rgba(21,21,36,.1);overflow:hidden">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(21,21,36,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(21,21,36,.1) 1px,transparent 1px);background-size:25% 20%"></div>
+            <div style="position:absolute;width:120%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(21,21,36,.16);left:40%;top:-30%"></div>
+            <span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Fig. {{ p.num }}</span>
+            <span style="position:absolute;right:12px;bottom:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">{{ p.fig }}</span>
+            <div style="position:relative;z-index:1"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="{{ p.art }}" ramp="{{ p.ramp }}" px="10" hover="1" hint-size="200px,200px"></x-import></div>
+          </div>
+          <div style="padding:22px 24px;display:flex;flex-direction:column;gap:12px;flex:1">
+            <div style="display:flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C"><span style="width:8px;height:8px;background:{{ p.dot }}"></span>{{ p.cat }}</div>
+            <h3 style="margin:0;font-size:clamp(22px,2vw,26px);font-weight:500;letter-spacing:-.03em;line-height:1.12;text-wrap:balance">{{ p.title }}</h3>
+            <p style="margin:0;color:#4A4A5C;font-size:16px;line-height:1.5;text-wrap:pretty">{{ p.impact }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ p.stack }}" as="s" hint-placeholder-count="3"><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border:1px solid rgba(21,21,36,.14);border-radius:4px">{{ s }}</span></sc-for>
+            </div>
+            <div style="margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(21,21,36,.1);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase"><span>{{ p.cta }}</span><span style="color:#FA500F;font-size:18px;letter-spacing:0">→</span></div>
+          </div>
+        </a>
+      </sc-for>
+      <sc-if value="{{ d.placeholder }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:420px;padding:24px;border:1px dashed rgba(21,21,36,.3);border-radius:8px">
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">En rédaction</span>
+          <div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:26px;font-weight:500;letter-spacing:-.03em;line-height:1.12">{{ d.placeholder }}</span><span style="font-size:15px;line-height:1.5;color:#4A4A5C">Étude de cas en cours d'écriture. Détails disponibles en entretien.</span></div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(72px,9vw,120px) clamp(20px,4vw,56px) clamp(72px,9vw,120px)">
+    <span style="display:block;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C;margin-bottom:20px">Autres domaines</span>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));border-top:1px solid rgba(21,21,36,.1);border-left:1px solid rgba(21,21,36,.1)">
+      <sc-for list="{{ others }}" as="o" hint-placeholder-count="3">
+        <button onClick="{{ o.go }}" data-hover-host="1" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px;border:0;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#F2F1E8;color:#151524;text-align:left;cursor:pointer;font-family:inherit" style-hover="background:#FFFFFF">
+          <div style="display:flex;align-items:center;gap:14px"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="{{ o.art }}" ramp="{{ o.ramp }}" px="2.4" hover="1" hint-size="48px,48px"></x-import><span style="font-size:18px;font-weight:500;letter-spacing:-.02em">{{ o.label }}</span></div>
+          <span style="color:#FA500F;font-size:18px">→</span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <footer style="background:#F2F1E8;border-top:1px solid rgba(21,21,36,.1)">
+    <div style="max-width:1440px;margin:0 auto;padding:40px clamp(20px,4vw,56px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" frames="mascot-a,mascot-b,mascot-a,mascot-c" fps="4" ramp="sunset" px="3" hint-size="48px,48px"></x-import>
+        <span style="font-size:17px;font-weight:600;letter-spacing:-.02em">{{ name }}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:24px;font-size:15px"><a href="Accueil.dc.html" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Accueil</a><a href="Veille.dc.html" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Veille</a><a href="#" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">GitHub</a><a href="Accueil.dc.html#contact" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Contact</a></div>
+      <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">© 2026 {{ name }}</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;name&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Prénom Nom&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;note&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#B9DAFF&quot;,&quot;#94EACC&quot;,&quot;#FEC63A&quot;,&quot;#E3DCC8&quot;],&quot;default&quot;:&quot;#B9DAFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Couleur d'appoint (ex-rose)&quot;}}">
+class Component extends DCLogic {
+  DOMAINS = {
+    tous: { label: 'Tous les projets', short: 'Tous', index: 'Projets — index', l1: 'Des projets réels.', l2: 'En production.', text: "Production chez les clients de mon ESN, ou homelab sur trois sites : chaque projet a un contexte, une contrainte et un résultat vérifiable.", skills: ['Windows Server', 'Proxmox VE', 'Tailscale', 'Veeam', 'k3s'], art: 'emblem', ramp: 'sunset', dot: '#151524', fig: '00', vert: 'Index — 00' },
+    infra: { label: 'Infrastructure & virtualisation', short: 'Infra', index: '01 / Infrastructure & virtualisation', l1: 'Des hôtes', l2: 'qui tiennent.', text: "Je déploie et maintiens des hôtes Hyper-V et Proxmox, du firmware du serveur jusqu'à la dernière VM.", skills: ['Windows Server 2019–2025', 'Hyper-V', 'Proxmox VE', 'Active Directory', 'HPE ProLiant'], art: 'infra', ramp: 'blue', dot: '#0082E6', fig: '01', vert: 'Infra — 01' },
+    backup: { label: 'Sauvegarde & PRA', short: 'Sauvegarde', index: '02 / Sauvegarde & PRA', l1: 'Restaurer,', l2: 'pas espérer.', text: "Une sauvegarde ne compte que si elle a été restaurée. Je teste, je chronomètre, je documente.", skills: ['Veeam B&R', '3-2-1-1-0', 'ZFS send / recv', 'Tests de restauration', 'PRA écrit'], art: 'backup', ramp: 'green', dot: '#318E68', fig: '02', vert: 'PRA — 02', placeholder: 'PRA type : Veeam B&R, copie immuable et test de restauration mensuel' },
+    reseau: { label: 'Réseau & sécurité', short: 'Réseau & sécu', index: '03 / Réseau & sécurité', l1: 'Fermé', l2: 'par défaut.', text: "Segmenter, n'ouvrir que le nécessaire, tracer le reste. Appliqué au quotidien, pas seulement en audit.", skills: ['Tailscale', 'Reverse proxy & TLS', 'VLAN & pare-feu', 'Durcissement', 'Moindre privilège'], art: 'lock', ramp: 'sunset', dot: '#FA500F', fig: '03', vert: 'Sécu — 03' },
+    auto: { label: 'Automatisation & IA', short: 'Auto & IA', index: '04 / Automatisation & IA', l1: 'Scripter', l2: 'le répétitif.', text: "Ce qui se fait deux fois se scripte. Ce qui se scripte se versionne. Et l'IA tourne en local.", skills: ['PowerShell', 'Bash', 'Docker & k3s', 'Ollama', 'Home Assistant'], art: 'chip', ramp: 'pop', dot: 'var(--note,#B9DAFF)', fig: '04', vert: 'Auto — 04' }
+  };
+  PROJECTS = [
+    { num: '01', art: 'migrate', ramp: 'green', dot: '#318E68', cat: 'Stockage · ZFS', fig: 'Unraid → Proxmox', title: 'Migration homelab Unraid → Proxmox VE / ZFS', impact: '~9 To transférés à distance, sans accès physique à la machine.', stack: ['Proxmox VE', 'ZFS', 'rsync'], href: 'Projet.dc.html', doms: ['infra', 'backup'] },
+    { num: '02', art: 'network', ramp: 'blue', dot: '#0082E6', cat: 'Réseau', fig: '3 subnet routers', title: 'Réseau multi-sites Tailscale + reverse proxy', impact: 'Trois sites reliés, un reverse proxy qui bascule seul si un site tombe.', stack: ['Tailscale', 'WireGuard', 'TLS'], doms: ['reseau'] },
+    { num: '03', art: 'chip', ramp: 'pop', dot: 'var(--note,#B9DAFF)', cat: 'Automatisation & IA', fig: 'GPU passthrough', title: 'IA locale : GPU passthrough, Ollama, agents', impact: 'Un GPU dédié à une VM : modèles et agents tournent sans cloud.', stack: ['Proxmox', 'VFIO', 'Ollama'], doms: ['auto', 'infra'] },
+    { num: '04', art: 'ticket', ramp: 'green', dot: '#318E68', cat: 'Supervision · ITSM', fig: 'Ubuntu Server', title: 'Déploiement GLPI 11 sur Ubuntu', impact: 'Parc et tickets centralisés sur un serveur durci et sauvegardé.', stack: ['GLPI 11', 'Ubuntu', 'MariaDB'], doms: ['infra'] },
+    { num: '05', art: 'firmware', ramp: 'sunset', dot: '#FA500F', cat: 'Sécurité · Parc', fig: 'HPE ProLiant', title: 'Campagne firmware HPE sur parc ProLiant', impact: 'Mises à jour planifiées sur les serveurs clients, avec retour arrière prévu.', stack: ['iLO', 'SPP', 'Hyper-V'], doms: ['infra', 'reseau'] },
+    { num: '06', art: 'wipe', ramp: 'sunset', dot: '#FA500F', cat: 'Sécurité · Open source', fig: 'Data brokers', title: 'DataWipe : opt-out des data brokers', impact: 'Un outil open source pour demander sa suppression en lot.', stack: ['Python', 'RGPD', 'GitHub'], doms: ['reseau', 'auto'] }
+  ];
+  state = { dom: 'tous', w: typeof window !== 'undefined' ? window.innerWidth : 1440 };
+  applyNote() { document.documentElement.style.setProperty('--note', this.props.note ?? '#B9DAFF'); }
+  componentDidUpdate(pp) { if (pp.note !== this.props.note) this.applyNote(); }
+  componentDidMount() {
+    this.applyNote();
+    const q = new URLSearchParams(location.search).get('domaine');
+    if (q && this.DOMAINS[q]) this.setState({ dom: q });
+    this.onR = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this.onR);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  go(k) {
+    this.setState({ dom: k });
+    try { const u = new URL(location.href); if (k === 'tous') u.searchParams.delete('domaine'); else u.searchParams.set('domaine', k); history.replaceState(null, '', u); } catch (e) {}
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  renderVals() {
+    const dom = this.state.dom, d = this.DOMAINS[dom];
+    const inDom = k => k === 'tous' ? this.PROJECTS : this.PROJECTS.filter(p => p.doms.includes(k));
+    const list = inDom(dom).map(p => ({ ...p, href: p.href || '#', cta: p.href ? 'Étude de cas' : 'Étude de cas — bientôt' }));
+    const n = list.length;
+    return {
+      name: this.props.name ?? 'Prénom Nom',
+      wide: this.state.w >= 900,
+      d: { ...d, placeholder: d.placeholder || '' },
+      list,
+      countLabel: String(n).padStart(2, '0') + (n > 1 ? ' projets' : ' projet'),
+      tabs: Object.keys(this.DOMAINS).map(k => {
+        const on = k === dom;
+        return { label: this.DOMAINS[k].short, count: String(inDom(k).length).padStart(2, '0'), dot: this.DOMAINS[k].dot === '#151524' ? (on ? '#FF8204' : '#151524') : this.DOMAINS[k].dot, bg: on ? '#151524' : 'transparent', fg: on ? '#F2F1E8' : '#151524', border: on ? '#151524' : 'rgba(21,21,36,.22)', go: () => this.go(k) };
+      }),
+      others: Object.keys(this.DOMAINS).filter(k => k !== dom && k !== 'tous').map(k => ({ label: this.DOMAINS[k].label, art: this.DOMAINS[k].art, ramp: this.DOMAINS[k].ramp, go: () => this.go(k) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

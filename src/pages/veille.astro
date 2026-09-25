@@ -234,7 +234,7 @@ const isExternal = (u: string) => /^https?:/.test(u);
 
   .vl__side { flex: 1 1 320px; min-width: 0; position: sticky; top: 140px; display: flex; flex-direction: column; gap: 16px; }
   @media (max-width: 1000px) { .vl__side { position: static; } }
-  .vl__radar { position: relative; overflow: hidden; background: #151524; color: #F2F1E8; border-radius: 8px; padding: 22px; }
+  .vl__radar { border: 1px solid var(--line); position: relative; overflow: hidden; background: #151524; color: #F2F1E8; border-radius: 8px; padding: 22px; }
   .vl__rarc1, .vl__rarc2 { position: absolute; border-radius: 50%; border: 1px solid rgba(242, 241, 232, .14); }
   .vl__rarc1 { width: 440px; height: 440px; right: -220px; top: -220px; }
   .vl__rarc2 { width: 280px; height: 280px; right: -140px; top: -140px; }

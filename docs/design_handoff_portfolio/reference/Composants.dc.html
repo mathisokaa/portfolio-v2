@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"><script src="pixel.js"></script><style>*{box-sizing:border-box}html,body{margin:0;background:#F2F1E8}a{color:inherit;text-decoration:none}a:hover{text-decoration:none}</style></helmet>
+<div style="background:#F2F1E8;color:#151524;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh">
+  <div style="max-width:1440px;margin:0 auto;padding:56px clamp(20px,4vw,56px) 96px;display:flex;flex-direction:column;gap:72px">
+
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:28px;border-bottom:1px solid rgba(21,21,36,.22)">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Portfolio — planche de composants · v1</span>
+        <h1 style="margin:0;font-size:clamp(48px,6vw,88px);font-weight:500;line-height:.94;letter-spacing:-.045em">Un système.<br>Peu de pièces.</h1>
+      </div>
+      <div style="display:flex;gap:10px"><a href="Accueil.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;border:1px solid rgba(21,21,36,.22);font-size:14px;font-weight:500">Accueil</a><a href="Projet.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;border:1px solid rgba(21,21,36,.22);font-size:14px;font-weight:500">Page projet</a></div>
+    </div>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">01 — Couleurs</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:6px;background:#151524"></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em">--ink #151524</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:6px;background:#F2F1E8;border:1px solid rgba(21,21,36,.14)"></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em">--cream #F2F1E8</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:6px;background:#FFFFFF;border:1px solid rgba(21,21,36,.14)"></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em">--paper #FFFFFF</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:6px;background:#FEC63A"></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em">ambre #FEC63A</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:6px;background:var(--note,#B9DAFF)"></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em">note · annotations</span></div>
+      </div>
+      <div style="position:relative;height:180px;border-radius:8px;overflow:hidden;background:linear-gradient(90deg,#FFAF01,#FF8204 25%,#FA500F 50%,#E61300 75%,#C4001D)">
+        <x-import component-from-global-scope="px-grain" from="./pixel.js" opacity=".55" hint-size="0px,0px"></x-import>
+        <div style="position:absolute;inset:0;z-index:2;display:grid;grid-template-columns:repeat(5,1fr)">
+          <span style="padding:12px;border-right:1px solid rgba(255,255,255,.3);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:#151524">#FFAF01</span>
+          <span style="padding:12px;border-right:1px solid rgba(255,255,255,.3);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:#151524">#FF8204</span>
+          <span style="padding:12px;border-right:1px solid rgba(255,255,255,.3);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:#151524">#FA500F</span>
+          <span style="padding:12px;border-right:1px solid rgba(255,255,255,.3);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:#FFFFFF">#E61300</span>
+          <span style="padding:12px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:#FFFFFF">#C4001D · sunset + grain</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px">
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="display:grid;grid-template-columns:repeat(4,1fr);height:56px;border-radius:6px;overflow:hidden"><span style="background:#044298"></span><span style="background:#0082E6"></span><span style="background:#55B3FB"></span><span style="background:#B9DAFF"></span></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase">Réseau · bleu</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="display:grid;grid-template-columns:repeat(4,1fr);height:56px;border-radius:6px;overflow:hidden"><span style="background:#005737"></span><span style="background:#318E68"></span><span style="background:#44BA82"></span><span style="background:#94EACC"></span></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase">Supervision / backup · vert</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="display:grid;grid-template-columns:repeat(4,1fr);height:56px;border-radius:6px;overflow:hidden"><span style="background:#C4001D"></span><span style="background:#FA500F"></span><span style="background:#FF8204"></span><span style="background:#FFAF01"></span></div><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase">Sécurité · sunset</span></div>
+      </div>
+      <p style="margin:0;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#4A4A5C">#FA500F sur crème ≈ 3:1 → titres, icônes et flèches uniquement. Texte courant en --ink.</p>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">02 — Typographie</span>
+      <div style="display:flex;flex-direction:column;border-top:1px solid rgba(21,21,36,.1)">
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 32px;padding:20px 0;border-bottom:1px solid rgba(21,21,36,.1)"><span style="flex:0 0 200px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Display · Geist 500 · 112 / 0.93 · −4.5 %</span><span style="font-size:clamp(48px,7vw,112px);font-weight:500;line-height:.93;letter-spacing:-.045em">Infra solide.</span></div>
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 32px;padding:20px 0;border-bottom:1px solid rgba(21,21,36,.1)"><span style="flex:0 0 200px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">H2 · Geist 500 · 72 / 0.98</span><span style="font-size:clamp(40px,5vw,72px);font-weight:500;line-height:.98;letter-spacing:-.04em">Un seul standard.</span></div>
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 32px;padding:20px 0;border-bottom:1px solid rgba(21,21,36,.1)"><span style="flex:0 0 200px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">H3 · Geist 500 · 46 / 1</span><span style="font-size:46px;font-weight:500;line-height:1;letter-spacing:-.035em">Fermé par défaut.</span></div>
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 32px;padding:20px 0;border-bottom:1px solid rgba(21,21,36,.1)"><span style="flex:0 0 200px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Corps · Geist 400 · 17 / 1.5</span><span style="flex:1 1 400px;font-size:17px;line-height:1.5;max-width:36em">Une sauvegarde ne compte que si elle a été restaurée. Je teste, je chronomètre, je documente.</span></div>
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 32px;padding:20px 0;border-bottom:1px solid rgba(21,21,36,.1)"><span style="flex:0 0 200px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Micro · Geist Mono · 11 · +8 %</span><span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase">02 — Projets phares</span></div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">03 — Emblème · baie 3U + prompt &gt;_ · grille 20 × 20</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+        <div style="position:relative;aspect-ratio:1;border-radius:8px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1);display:grid;place-items:center"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="8" grid="dark" hint-size="160px,160px"></x-import><span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Construction</span></div>
+        <div style="position:relative;aspect-ratio:1;border-radius:8px;background:#F2F1E8;border:1px solid rgba(21,21,36,.14);display:grid;place-items:center"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="8" hint-size="160px,160px"></x-import><span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Sunset · défaut</span></div>
+        <div style="position:relative;aspect-ratio:1;border-radius:8px;background:#F2F1E8;border:1px solid rgba(21,21,36,.14);display:grid;place-items:center"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" variant="ink" px="8" hint-size="160px,160px"></x-import><span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Encre</span></div>
+        <div style="position:relative;aspect-ratio:1;border-radius:8px;background:#151524;display:grid;place-items:center"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" variant="white" px="8" hint-size="160px,160px"></x-import><span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#A9A89F">Blanc</span></div>
+        <div style="position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:linear-gradient(160deg,#FFAF01,#FA500F 55%,#C4001D);display:grid;place-items:center"><x-import component-from-global-scope="px-grain" from="./pixel.js" opacity=".5" hint-size="0px,0px"></x-import><div style="position:relative;z-index:2"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" variant="white" px="8" hint-size="160px,160px"></x-import></div><span style="position:absolute;left:12px;top:12px;z-index:2;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#151524">Blanc sur aplat</span></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <div style="flex:1 1 380px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px;border-radius:8px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1)">
+          <div style="display:flex;align-items:center;gap:14px"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="2.4" hint-size="48px,48px"></x-import><span style="font-size:26px;font-weight:600;letter-spacing:-.025em">{{ name }}</span></div>
+          <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Lockup · wordmark --ink</span>
+        </div>
+        <div style="flex:1 1 380px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px;border-radius:8px;background:#151524;color:#F2F1E8">
+          <div style="display:flex;align-items:center;gap:14px"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="2.4" hint-size="48px,48px"></x-import><span style="font-size:26px;font-weight:600;letter-spacing:-.025em">{{ name }}</span></div>
+          <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#A9A89F">Variante sombre</span>
+        </div>
+        <div style="flex:1 1 300px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:28px;border-radius:8px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1)">
+          <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="4" hint-size="80px,80px"></x-import>
+          <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="2" hint-size="40px,40px"></x-import>
+          <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="1.2" hint-size="24px,24px"></x-import>
+          <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="0.8" hint-size="16px,16px"></x-import>
+          <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">80 · 40 · 24 · 16</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">04 — Icônes des 4 domaines · 160 × 160 · modules de 8 px</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));border-top:1px solid rgba(21,21,36,.1);border-left:1px solid rgba(21,21,36,.1)">
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:40px 20px 24px;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#FFFFFF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="infra" ramp="blue" px="8" hint-size="160px,160px"></x-import><div style="display:flex;justify-content:space-between;align-self:stretch;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase"><span>Infra &amp; virtu</span><span style="color:#4A4A5C">bleu</span></div></div>
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:40px 20px 24px;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#FFFFFF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="backup" ramp="green" px="8" hint-size="160px,160px"></x-import><div style="display:flex;justify-content:space-between;align-self:stretch;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase"><span>Sauvegarde &amp; PRA</span><span style="color:#4A4A5C">vert</span></div></div>
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:40px 20px 24px;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#FFFFFF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="lock" ramp="sunset" px="8" hint-size="160px,160px"></x-import><div style="display:flex;justify-content:space-between;align-self:stretch;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase"><span>Réseau &amp; sécu</span><span style="color:#4A4A5C">sunset</span></div></div>
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:40px 20px 24px;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#FFFFFF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="chip" ramp="pop" px="8" hint-size="160px,160px"></x-import><div style="display:flex;justify-content:space-between;align-self:stretch;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase"><span>Automatisation &amp; IA</span><span style="color:#4A4A5C">note / ambre</span></div></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:24px;padding:20px 24px;border-radius:8px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1)">
+        <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Encre · 40 px</span>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="infra" variant="ink" px="2" hint-size="40px,40px"></x-import>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="backup" variant="ink" px="2" hint-size="40px,40px"></x-import>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="lock" variant="ink" px="2" hint-size="40px,40px"></x-import>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="chip" variant="ink" px="2" hint-size="40px,40px"></x-import>
+        <span style="width:1px;height:32px;background:rgba(21,21,36,.14)"></span>
+        <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Couleur · 24 px</span>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="infra" ramp="blue" px="1.2" hint-size="24px,24px"></x-import>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="backup" ramp="green" px="1.2" hint-size="24px,24px"></x-import>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="lock" ramp="sunset" px="1.2" hint-size="24px,24px"></x-import>
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="chip" ramp="pop" px="1.2" hint-size="24px,24px"></x-import>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">05 — Illustrations projets · même famille</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 12px 16px;border-radius:8px;background:#EAE9DF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="migrate" ramp="green" px="6" hint-size="120px,120px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Migration</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 12px 16px;border-radius:8px;background:#EAE9DF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="network" ramp="blue" px="6" hint-size="120px,120px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Tailscale</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 12px 16px;border-radius:8px;background:#EAE9DF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="chip" ramp="pop" px="6" hint-size="120px,120px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">IA locale</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 12px 16px;border-radius:8px;background:#EAE9DF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="ticket" ramp="green" px="6" hint-size="120px,120px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">GLPI 11</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 12px 16px;border-radius:8px;background:#EAE9DF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="firmware" ramp="sunset" px="6" hint-size="120px,120px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">Firmware HPE</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 12px 16px;border-radius:8px;background:#EAE9DF"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="wipe" ramp="sunset" px="6" hint-size="120px,120px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">DataWipe</span></div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">06 — Mascotte · 16 × 16 · 3 frames · 4 i/s · figée si prefers-reduced-motion</span>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <div style="flex:1 1 260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;border-radius:8px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1)"><x-import component-from-global-scope="pixel-art" from="./pixel.js" frames="mascot-a,mascot-b,mascot-a,mascot-c" fps="4" ramp="sunset" px="10" hint-size="160px,160px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">En boucle · a → b → a → c</span></div>
+        <div style="flex:2 1 480px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(21,21,36,.1);border-left:1px solid rgba(21,21,36,.1)">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px 12px;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="mascot-a" ramp="sunset" px="6" grid="dark" hint-size="96px,96px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">a · repos</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px 12px;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="mascot-b" ramp="sunset" px="6" grid="dark" hint-size="96px,96px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">b · saut, regard</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px 12px;border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="mascot-c" ramp="sunset" px="6" grid="dark" hint-size="96px,96px"></x-import><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase">c · clignement</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">07 — Boutons · radius 6 · hauteur 40 / 48 / 52</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px">
+        <div style="display:flex;flex-direction:column;gap:18px;padding:28px;border-radius:8px;background:#F2F1E8;border:1px solid rgba(21,21,36,.14)">
+          <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Sur crème</span>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <a href="#" style="display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 20px;border-radius:6px;background:#151524;color:#F2F1E8;font-size:15px;font-weight:500" style-hover="opacity:.86">Me contacter <span style="color:#FF8204">→</span></a>
+            <a href="#" style="display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 20px;border-radius:6px;border:1px solid rgba(21,21,36,.22);font-size:15px;font-weight:500" style-hover="border-color:#151524">CV <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#4A4A5C">PDF</span></a>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <a href="#" style="display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500" style-hover="gap:14px">Lien fléché <span style="color:#FA500F;font-size:18px">→</span></a>
+            <span style="width:48px;height:48px;border-radius:6px;border:1px solid rgba(21,21,36,.22);display:grid;place-items:center;font-size:18px">←</span>
+            <span style="width:48px;height:48px;border-radius:6px;background:#151524;color:#FF8204;display:grid;place-items:center;font-size:18px">→</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px;padding:28px;border-radius:8px;background:#151524;color:#F2F1E8">
+          <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#A9A89F">Sur encre</span>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <a href="#" style="display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 20px;border-radius:6px;background:#F2F1E8;color:#151524;font-size:15px;font-weight:500">Me contacter <span style="color:#FA500F">→</span></a>
+            <a href="#" style="display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:6px;border:1px solid rgba(242,241,232,.28);font-size:15px;font-weight:500">CV</a>
+          </div>
+          <a href="#" style="display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500">Lien fléché <span style="color:#FF8204;font-size:18px">→</span></a>
+        </div>
+        <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:18px;padding:28px;border-radius:8px;background:linear-gradient(30deg,#C4001D,#FA500F 60%,#FFAF01)">
+          <x-import component-from-global-scope="px-grain" from="./pixel.js" opacity=".5" hint-size="0px,0px"></x-import>
+          <span style="position:relative;z-index:2;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#151524">Sur sunset · CTA</span>
+          <div style="position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:10px">
+            <a href="#" style="display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 22px;border-radius:6px;background:#151524;color:#F2F1E8;font-size:16px;font-weight:500">Me contacter <span style="color:#FF8204">→</span></a>
+            <a href="#" style="display:inline-flex;align-items:center;height:52px;padding:0 22px;border-radius:6px;background:#FFFFFF;color:#151524;font-size:16px;font-weight:500">Télécharger le CV</a>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:center;padding:20px 24px;border-radius:8px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1)">
+        <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">États</span>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px"><span style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;background:#151524;color:#F2F1E8;font-size:14px;font-weight:500">Repos</span><span style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;color:#4A4A5C">100 %</span></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px"><span style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;background:#151524;color:#F2F1E8;font-size:14px;font-weight:500;opacity:.86">Survol</span><span style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;color:#4A4A5C">86 %</span></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px"><span style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;background:#151524;color:#F2F1E8;font-size:14px;font-weight:500;box-shadow:0 0 0 2px #F2F1E8,0 0 0 4px #0082E6">Focus</span><span style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;color:#4A4A5C">anneau #0082E6</span></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px"><span style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;background:#D9D8CE;color:#4A4A5C;font-size:14px;font-weight:500">Désactivé</span><span style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;color:#4A4A5C">cream −10 %</span></div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">08 — Micro-labels &amp; grille</span>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:16px;padding:28px;border-radius:8px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1)">
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">03 — Ce que je fais</span>
+          <span style="display:flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C"><span style="width:8px;height:8px;background:#0082E6"></span>Réseau</span>
+          <span style="align-self:flex-start;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border:1px solid rgba(21,21,36,.22);border-radius:4px">Diplôme</span>
+        </div>
+        <div style="flex:2 1 520px;position:relative;min-height:260px;border-radius:8px;overflow:hidden;background:#EAE9DF">
+          <div style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(3,1fr)">
+            <span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);padding:8px;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;color:#4A4A5C">A1</span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#FFAF01"></span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"></span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);padding:8px;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase">Fig. 03.1</span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"></span><span style="border-bottom:1px solid rgba(21,21,36,.1);padding:8px;writing-mode:vertical-rl;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase">Infra — 01</span>
+            <span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"></span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#FF8204"></span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);background:#FA500F"></span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"></span><span style="border-right:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1)"></span><span style="border-bottom:1px solid rgba(21,21,36,.1)"></span>
+            <span style="border-right:1px solid rgba(21,21,36,.1)"></span><span style="border-right:1px solid rgba(21,21,36,.1)"></span><span style="border-right:1px solid rgba(21,21,36,.1);background:#E61300"></span><span style="border-right:1px solid rgba(21,21,36,.1);background:#C4001D;padding:8px;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;color:#FFFFFF">ACK</span><span style="border-right:1px solid rgba(21,21,36,.1)"></span><span style="padding:8px;display:flex;align-items:flex-end;justify-content:flex-end;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Filets 1 px · 10 %</span>
+          </div>
+          <div style="position:absolute;width:520px;height:520px;border-radius:50%;border:1px solid rgba(21,21,36,.2);right:-200px;top:-140px;pointer-events:none"></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">09 — Cartes · repos / survol (survolez la première)</span>
+      <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+        <a href="Projet.dc.html" data-hover-host="1" style="flex:0 1 420px;display:flex;flex-direction:column;background:#FFFFFF;border:1px solid rgba(21,21,36,.1);border-radius:8px;overflow:hidden;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1)" style-hover="transform:translateY(-6px);box-shadow:0 28px 48px -28px rgba(21,21,36,.35)">
+          <div style="position:relative;aspect-ratio:5/4;background:#EAE9DF;display:grid;place-items:center;border-bottom:1px solid rgba(21,21,36,.1)">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(21,21,36,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(21,21,36,.1) 1px,transparent 1px);background-size:25% 20%"></div>
+            <span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Fig. 02.1</span>
+            <div style="position:relative"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="migrate" ramp="green" px="9" hover="1" hint-size="180px,180px"></x-import></div>
+          </div>
+          <div style="padding:20px 22px;display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C"><span style="width:8px;height:8px;background:#318E68"></span>Stockage · ZFS</span>
+            <span style="font-size:24px;font-weight:500;letter-spacing:-.03em;line-height:1.12">Migration homelab Unraid → Proxmox VE / ZFS</span>
+            <span style="font-size:15px;line-height:1.5;color:#4A4A5C">~9 To transférés à distance, sans accès physique à la machine.</span>
+          </div>
+        </a>
+        <div style="flex:0 1 420px;display:flex;flex-direction:column;background:#FFFFFF;border:1px solid rgba(21,21,36,.1);border-radius:8px;overflow:hidden;transform:translateY(-6px);box-shadow:0 28px 48px -28px rgba(21,21,36,.35)">
+          <div style="position:relative;aspect-ratio:5/4;background:#EAE9DF;display:grid;place-items:center;border-bottom:1px solid rgba(21,21,36,.1)">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(21,21,36,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(21,21,36,.1) 1px,transparent 1px);background-size:25% 20%"></div>
+            <span style="position:absolute;left:12px;top:12px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">État survol · figé</span>
+            <div style="position:relative"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="network" ramp="blue" px="9" hint-size="180px,180px"></x-import></div>
+          </div>
+          <div style="padding:20px 22px;display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C"><span style="width:8px;height:8px;background:#0082E6"></span>Réseau</span>
+            <span style="font-size:24px;font-weight:500;letter-spacing:-.03em;line-height:1.12">Réseau multi-sites Tailscale + reverse proxy</span>
+            <span style="font-size:15px;line-height:1.5;color:#4A4A5C">Trois sites reliés, un reverse proxy qui bascule seul si un site tombe.</span>
+          </div>
+        </div>
+        <div style="flex:0 1 300px;display:flex;flex-direction:column;gap:10px;padding:16px 18px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1);border-radius:6px">
+          <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C"><span>News · Diplôme</span><span>2026</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;font-size:15px;line-height:1.35;font-weight:500"><span>Licence cybersécurité obtenue</span><span style="color:#FA500F">→</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">10 — Terminal interactif · live (whoami, ls projets, cat stack, ping contact, help)</span>
+      <div style="max-width:720px;height:460px"><dc-import name="Terminal" owner="{{ name }}" auto-demo="{{ false }}" style="display:block;height:100%" hint-size="100%,460px"></dc-import></div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;name&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Prénom Nom&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;note&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#B9DAFF&quot;,&quot;#94EACC&quot;,&quot;#FEC63A&quot;,&quot;#E3DCC8&quot;],&quot;default&quot;:&quot;#B9DAFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Couleur d'appoint (ex-rose)&quot;}}">
+class Component extends DCLogic {
+  applyNote() { document.documentElement.style.setProperty('--note', this.props.note ?? '#B9DAFF'); }
+  componentDidMount() { this.applyNote(); }
+  componentDidUpdate() { this.applyNote(); }
+  renderVals() { return { name: this.props.name ?? 'Prénom Nom' }; }
+}
+</script>
+</body>
+</html>

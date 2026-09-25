@@ -79,7 +79,8 @@ const countLabel = (n: number) => `${num(n)} ${n > 1 ? 'projets' : 'projet'}`;
       </div>
     </div>
 
-    <section class="pj__list container" aria-label="Liste des projets">
+    <section class="pj__list container" aria-labelledby="pj-list">
+      <h2 id="pj-list" class="sr-only">Liste des projets</h2>
       <p class="sr-only" aria-live="polite" data-dom-status></p>
       <div class="pj__grid-cards">
         {projets.map((p) => (

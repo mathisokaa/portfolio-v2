@@ -1,0 +1,22 @@
+services:
+  portfolio:
+    build: .
+    image: portfolio:latest
+    container_name: portfolio
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    # Exposé en local uniquement : le reverse proxy du homelab fait le TLS.
+    ports:
+      - "127.0.0.1:8080:8080"
+    # Variante réseau Docker partagé avec le reverse proxy :
+    # networks: [proxy]
+
+# networks:
+#   proxy:
+#     external: true
