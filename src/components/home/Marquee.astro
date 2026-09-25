@@ -1,0 +1,46 @@
+---
+import { STACK } from '../../data/accueil';
+---
+<section class="mq" aria-labelledby="mq-title">
+  <div class="mq__head container micro"><h2 id="mq-title" class="mq__title">01 — Stack du quotidien</h2></div>
+  <div class="mq__track">
+    <ul class="mq__list">
+      {STACK.map((t) => <li class="mq__item"><span class="mq__sq" aria-hidden="true"></span>{t}</li>)}
+    </ul>
+    <ul class="mq__list" aria-hidden="true">
+      {STACK.map((t) => <li class="mq__item"><span class="mq__sq"></span>{t}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .mq {
+    margin-top: clamp(64px, 7vw, 96px);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .mq__head { padding-top: 14px; }
+  .mq__title { font: inherit; }
+  .mq__track {
+    display: flex;
+    width: max-content;
+    padding: 26px 0 30px;
+    animation: mq 60s linear infinite;
+  }
+  .mq:hover .mq__track { animation-play-state: paused; }
+  .mq__list { display: flex; list-style: none; margin: 0; padding: 0; }
+  .mq__item {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding-right: 22px;
+    flex: none;
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 500;
+    letter-spacing: -.03em;
+    white-space: nowrap;
+  }
+  .mq__sq { width: 10px; height: 10px; background: var(--fg); flex: none; }
+  @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+</style>

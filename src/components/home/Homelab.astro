@@ -1,0 +1,209 @@
+---
+import PixelArt from '../PixelArt.astro';
+
+const vms = ['k3s-01', 'ollama · gpu', 'glpi-11', 'home-assistant', 'docker-01', 'agents-ia'];
+// Paquets pixel 4×4 animés le long des liens (désactivés en reduced-motion).
+const packets = [
+  { path: 'M440 150 H820', color: '#55B3FB', dur: 3.2, delay: 0 },
+  { path: 'M440 150 H820', color: '#55B3FB', dur: 3.2, delay: 1.6 },
+  { path: 'M820 150 H440', color: '#55B3FB', dur: 3.6, delay: .8 },
+  { path: 'M240 420 V470 H480', color: '#55B3FB', dur: 2.8, delay: .4 },
+  { path: 'M240 420 V470 H480', color: '#55B3FB', dur: 2.8, delay: 1.8 },
+  { path: 'M800 470 H1000 V330', color: '#FEC63A', dur: 3.4, delay: 1.2 },
+];
+---
+<section id="homelab" class="hl" aria-labelledby="hl-title">
+  <div class="hl__grid" aria-hidden="true"></div>
+  <span class="hl__coord" style="left:8px" aria-hidden="true">A1</span>
+  <span class="hl__coord" style="left:168px" aria-hidden="true">C1</span>
+  <span class="micro micro--cell hl__vert" aria-hidden="true">Topologie — état au 09.2026</span>
+
+  <div class="hl__in container">
+    <div class="hl__head">
+      <div class="hl__titles">
+        <span class="micro hl__muted">04 — Sous le capot</span>
+        <h2 id="hl-title" class="h2" data-rt>
+          <span class="rl-wrap"><span class="rl" data-rl>Trois sites.</span></span>
+          <span class="rl-wrap"><span class="rl" data-rl>Un seul réseau.</span></span>
+        </h2>
+      </div>
+      <p class="hl__p">Mon homelab sert de banc d'essai à tout ce que je déploie ensuite en production. Chaque site expose son réseau via un subnet router Tailscale.</p>
+    </div>
+
+    <figure class="hl__scroll" tabindex="0" aria-label="Schéma du homelab : trois sites reliés par Tailscale (défilement horizontal)">
+      <div class="hl__map">
+        <svg width="1240" height="600" class="hl__svg" aria-hidden="true">
+          <line x1="440" y1="150" x2="820" y2="150" stroke="#55B3FB" stroke-width="2" stroke-dasharray="8 6" />
+          <polyline points="240,420 240,470 480,470" fill="none" stroke="#55B3FB" stroke-width="2" stroke-dasharray="8 6" />
+          <polyline points="800,470 1000,470 1000,330" fill="none" stroke="#FEC63A" stroke-width="2" stroke-dasharray="8 6" />
+          <line x1="1000" y1="40" x2="1000" y2="80" stroke="#F2F1E8" stroke-width="2" />
+        </svg>
+        {packets.map((p) => (
+          <span class="hl__pkt" aria-hidden="true" style={`offset-path:path('${p.path}');background:${p.color};animation-duration:${p.dur}s;animation-delay:-${p.delay}s`}></span>
+        ))}
+        <div class="hl__lnk" style="left:560px;top:128px;color:#55B3FB">Tailnet · WireGuard</div>
+        <div class="hl__lnk" style="left:280px;top:458px;color:#55B3FB">Réplication ZFS</div>
+        <div class="hl__lnk" style="left:830px;top:458px;color:#FEC63A">Bascule auto</div>
+        <div class="hl__inet">Internet · 443</div>
+
+        <div class="hl__site" style="left:40px;top:60px;width:400px;gap:14px">
+          <div class="hl__sitehead">
+            <div class="hl__sitename"><span class="hl__lab">Site 01 — Domicile</span><span class="hl__host">pve-01 · Proxmox VE</span></div>
+            <PixelArt art="infra" ramp="blue" px={2.4} />
+          </div>
+          <div class="hl__specs"><span>ZFS · ~9 To</span><span>GPU · passthrough</span></div>
+          <div class="hl__vms">{vms.map((v) => <span class="hl__vm">{v}</span>)}</div>
+          <div class="hl__router"><span class="sq"></span>Subnet router 01</div>
+        </div>
+
+        <div class="hl__site" style="left:480px;top:340px;width:320px">
+          <div class="hl__sitehead">
+            <div class="hl__sitename"><span class="hl__lab">Site 02 — Distant</span><span class="hl__host">nas-02 · réplica</span></div>
+            <PixelArt art="backup" ramp="green" px={2.4} />
+          </div>
+          <div class="hl__specs"><span>Cible zfs send / recv · hors site</span></div>
+          <div class="hl__router"><span class="sq"></span>Subnet router 02</div>
+        </div>
+
+        <div class="hl__site" style="left:820px;top:80px;width:380px">
+          <div class="hl__sitehead">
+            <div class="hl__sitename"><span class="hl__lab">Site 03 — VPS</span><span class="hl__host">edge-01 · reverse proxy</span></div>
+            <PixelArt art="lock" ramp="sunset" px={2.4} />
+          </div>
+          <div class="hl__specs"><span>TLS</span><span>Health checks</span><span>Failover → 02</span></div>
+          <div class="hl__vms"><span class="hl__vm">proxy · actif</span><span class="hl__vm hl__vm--alt">proxy · secours</span></div>
+          <div class="hl__router"><span class="sq"></span>Subnet router 03</div>
+        </div>
+
+        <div class="hl__legend">
+          <span><span class="hl__dash" style="border-color:#55B3FB"></span>Lien Tailscale</span>
+          <span><span class="hl__dash" style="border-color:#FEC63A"></span>Chemin de secours</span>
+          <span><span class="sq" style="background:#55B3FB"></span>Subnet router</span>
+        </div>
+      </div>
+    </figure>
+    <p class="micro micro--cell hl__muted hl__foot">Schéma simplifié — adresses et noms d'hôtes masqués</p>
+  </div>
+</section>
+
+<style>
+  .hl {
+    position: relative;
+    overflow: hidden;
+    margin-top: clamp(80px, 10vw, 140px);
+    background: var(--deep);
+    color: #F2F1E8;
+  }
+  .hl__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(242, 241, 232, .07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(242, 241, 232, .07) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .hl__coord {
+    position: absolute;
+    top: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    color: rgba(242, 241, 232, .45);
+  }
+  .hl__vert { position: absolute; right: 16px; top: 50%; writing-mode: vertical-rl; color: #A9A89F; }
+  .hl__muted { color: #A9A89F; }
+  .hl__in { position: relative; padding-top: clamp(72px, 9vw, 120px); padding-bottom: clamp(72px, 9vw, 120px); }
+  .hl__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 28px;
+    margin-bottom: clamp(36px, 4vw, 56px);
+  }
+  .hl__titles { display: flex; flex-direction: column; gap: 20px; }
+  .hl__p { max-width: 26em; font-size: 17px; line-height: 1.5; color: #B4B3AA; }
+
+  .hl__scroll {
+    margin: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(242, 241, 232, .2) transparent;
+    border: 1px solid rgba(242, 241, 232, .14);
+    border-radius: 8px;
+    background: rgba(21, 21, 36, .6);
+  }
+  .hl__map { position: relative; width: 1240px; height: 600px; margin: 0 auto; font-family: var(--font-mono); }
+  .hl__svg { position: absolute; inset: 0; }
+  .hl__pkt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 4px;
+    offset-rotate: 0deg;
+    offset-anchor: center;
+    animation: pkt linear infinite;
+  }
+  @keyframes pkt {
+    0% { offset-distance: 0%; opacity: 0; }
+    8% { opacity: 1; }
+    92% { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hl__pkt { display: none; } }
+
+  .hl__lnk {
+    position: absolute;
+    background: #151524;
+    padding: 2px 8px;
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .hl__inet {
+    position: absolute;
+    left: 940px;
+    top: 14px;
+    padding: 4px 10px;
+    border: 1px solid rgba(242, 241, 232, .4);
+    border-radius: 4px;
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .hl__site {
+    position: absolute;
+    border: 1px solid rgba(242, 241, 232, .2);
+    border-radius: 8px;
+    background: #1C1C2E;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hl__sitehead { display: flex; justify-content: space-between; align-items: flex-start; }
+  .hl__sitename { display: flex; flex-direction: column; gap: 6px; }
+  .hl__lab { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #A9A89F; }
+  .hl__host { font-family: var(--font-sans); font-size: 22px; font-weight: 500; letter-spacing: -.02em; }
+  .hl__specs { display: flex; gap: 16px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #B4B3AA; }
+  .hl__vms { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .hl__vm { padding: 8px 10px; border: 1px solid rgba(242, 241, 232, .16); border-radius: 4px; font-size: 12px; }
+  .hl__vm--alt { border: 1px dashed rgba(254, 198, 58, .6); color: #FEC63A; }
+  .hl__router { display: flex; align-items: center; gap: 8px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #55B3FB; }
+  .hl__router .sq { background: #55B3FB; }
+  .hl__legend {
+    position: absolute;
+    left: 40px;
+    bottom: 24px;
+    display: flex;
+    gap: 24px;
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #A9A89F;
+  }
+  .hl__legend > span { display: flex; align-items: center; gap: 8px; }
+  .hl__dash { width: 24px; border-top: 2px dashed; }
+  .hl__foot { margin-top: 14px; }
+</style>
