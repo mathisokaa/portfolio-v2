@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="view-transition" content="same-origin"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"><script src="pixel.js"></script><script src="veille-data.js"></script><style>@view-transition{navigation:auto}*{box-sizing:border-box}html,body{margin:0;background:#F2F1E8}a{color:inherit;text-decoration:none}a:hover{text-decoration:none}::selection{background:#FA500F;color:#FFFFFF}@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}</style></helmet>
+<div style="background:#F2F1E8;color:#151524;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden">
+
+  <header style="position:sticky;top:0;z-index:50;background:#F2F1E8;border-bottom:1px solid rgba(21,21,36,.1)">
+    <div style="max-width:1440px;margin:0 auto;padding:12px clamp(20px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="Accueil.dc.html" style="display:flex;align-items:center;gap:12px">
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" art="emblem" px="1.6" hint-size="32px,32px"></x-import>
+        <span style="font-size:17px;font-weight:600;letter-spacing:-.02em">{{ name }}</span>
+      </a>
+      <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:32px;font-size:15px">
+          <a href="Projets.dc.html" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Projets</a>
+          <a href="Accueil.dc.html#homelab" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Homelab</a>
+          <a href="Accueil.dc.html#parcours" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Parcours</a>
+          <a href="Veille.dc.html" style="display:inline-flex;align-items:center;gap:8px"><span style="width:6px;height:6px;background:#FA500F"></span>Veille</a>
+          <a href="Accueil.dc.html#contact" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Contact</a>
+        </nav>
+      </sc-if>
+      <a href="Accueil.dc.html#contact" style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:6px;background:#151524;color:#F2F1E8;font-size:14px;font-weight:500" style-hover="opacity:.86">Me contacter</a>
+    </div>
+  </header>
+
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(28px,4vw,56px) clamp(20px,4vw,56px) 0">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,4vw,56px);align-items:stretch">
+      <div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;gap:24px">
+        <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Veille informatique — journal</span>
+        <h1 style="margin:0;font-size:clamp(56px,7.4vw,112px);font-weight:500;line-height:.93;letter-spacing:-.045em"><span style="display:block">Veille.</span><span style="display:block">Tenue à jour.</span></h1>
+        <p style="margin:0;max-width:30em;font-size:clamp(17px,1.4vw,20px);line-height:1.5;color:#4A4A5C;text-wrap:pretty">Ce que je lis, teste et retiens sur l'infra, la sécurité et l'auto-hébergement. Une entrée, une source, un avis.</p>
+        
+      </div>
+      <div style="flex:1 1 460px;min-width:0;position:relative;min-height:380px;border-radius:8px;overflow:hidden;background:linear-gradient(165deg,#FFAF01 0%,#FF8204 30%,#FA500F 58%,#E61300 82%,#C4001D 100%)">
+        <div style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr)">
+          <div style="border-right:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28);padding:12px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#151524">Mise à jour</span><span style="font-family:'Geist Mono',monospace;font-size:15px;letter-spacing:.02em;color:#151524">{{ updated }}</span></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)"></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)"></div>
+          <div style="border-bottom:1px solid rgba(255,255,255,.28);padding:12px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#151524">Entrées</span><span style="font-family:'Geist Mono',monospace;font-size:15px;color:#151524">{{ total }}</span></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)"></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)"></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)"></div>
+          <div style="border-bottom:1px solid rgba(255,255,255,.28)"></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28);padding:12px;display:flex;flex-direction:column;justify-content:flex-end"><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF">Rythme · hebdo</span></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28)"></div>
+          <div style="border-right:1px solid rgba(255,255,255,.28)"></div>
+          <div style="padding:12px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end"><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF">{{ sourcesCount }} sources</span></div>
+        </div>
+        <div style="position:absolute;width:640px;height:640px;border-radius:50%;border:1px solid rgba(255,255,255,.4);right:-300px;bottom:-360px"></div>
+        <x-import component-from-global-scope="px-grain" from="./pixel.js" opacity=".5" hint-size="0px,0px"></x-import>
+        <div style="position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none"><x-import component-from-global-scope="pixel-art" from="./pixel.js" art="loupe" variant="white" px="9" hint-size="180px,180px"></x-import></div>
+      </div>
+    </div>
+  </section>
+
+  <div style="position:sticky;top:65px;z-index:40;background:#F2F1E8;border-top:1px solid rgba(21,21,36,.1);border-bottom:1px solid rgba(21,21,36,.1);margin-top:clamp(48px,6vw,80px)">
+    <div style="max-width:1440px;margin:0 auto;padding:12px clamp(20px,4vw,56px);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
+      <sc-for list="{{ chips }}" as="c" hint-placeholder-count="6">
+        <button onClick="{{ c.go }}" style="flex:none;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:6px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer"><span style="width:6px;height:6px;background:{{ c.dot }}"></span>{{ c.label }}<span style="opacity:.7">{{ c.count }}</span></button>
+      </sc-for>
+    </div>
+  </div>
+
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(32px,4vw,56px) clamp(20px,4vw,56px) clamp(72px,9vw,120px);display:flex;flex-wrap:wrap;gap:clamp(32px,4vw,64px);align-items:flex-start">
+    <div style="flex:2 1 600px;min-width:0;display:flex;flex-direction:column;border-top:1px solid rgba(21,21,36,.22)">
+      <sc-for list="{{ entries }}" as="e" hint-placeholder-count="4">
+        <article style="display:flex;flex-wrap:wrap;gap:12px 32px;padding:28px 0;border-bottom:1px solid rgba(21,21,36,.1)">
+          <div style="flex:0 0 120px;display:flex;flex-direction:column;gap:6px;padding-top:4px"><span style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.06em">{{ e.date }}</span><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">N° {{ e.n }}</span></div>
+          <div style="flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:14px">
+            <span style="display:flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C"><span style="width:8px;height:8px;background:{{ e.dot }}"></span>{{ e.topic }}</span>
+            <h3 style="margin:0;font-size:clamp(21px,1.8vw,25px);font-weight:500;line-height:1.2;letter-spacing:-.025em;text-wrap:balance">{{ e.title }}</h3>
+            <div style="display:flex;gap:14px;padding:14px 16px;background:#FFFFFF;border:1px solid rgba(21,21,36,.1);border-radius:6px">
+              <span style="flex:none;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C;padding-top:3px">À retenir</span>
+              <span style="font-size:15px;line-height:1.5;text-wrap:pretty">{{ e.take }}</span>
+            </div>
+            <a href="{{ e.url }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase" style-hover="gap:14px">{{ e.source }} <span style="color:#FA500F;font-size:16px;letter-spacing:0">↗</span></a>
+          </div>
+        </article>
+      </sc-for>
+      <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}"><div style="padding:40px 0;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">Aucune entrée pour ce sujet.</div></sc-if>
+    </div>
+
+    <aside style="flex:1 1 320px;min-width:0;position:sticky;top:140px;display:flex;flex-direction:column;gap:16px">
+      <div style="position:relative;overflow:hidden;background:#151524;color:#F2F1E8;border-radius:8px;padding:22px">
+        <div style="position:absolute;width:440px;height:440px;border-radius:50%;border:1px solid rgba(242,241,232,.14);right:-220px;top:-220px"></div>
+        <div style="position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid rgba(242,241,232,.14);right:-140px;top:-140px"></div>
+        <div style="position:relative;display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#A9A89F"><span>Radar perso</span><span>{{ updated }}</span></div>
+          <sc-for list="{{ radar }}" as="r" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid rgba(242,241,232,.12)">
+              <span style="display:flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase"><span style="width:8px;height:8px;background:{{ r.dot }}"></span>{{ r.ring }}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ r.items }}" as="i" hint-placeholder-count="4"><span style="font-size:13px;padding:6px 10px;border:1px solid rgba(242,241,232,.18);border-radius:4px">{{ i }}</span></sc-for></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(21,21,36,.1);border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:4px">
+        <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C;margin-bottom:10px">Sources suivies</span>
+        <sc-for list="{{ sources }}" as="s" hint-placeholder-count="6">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid rgba(21,21,36,.1)"><span style="font-size:15px;font-weight:500">{{ s.name }}</span><span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">{{ s.type }}</span></div>
+        </sc-for>
+      </div>
+    </aside>
+  </section>
+
+  <footer style="background:#F2F1E8;border-top:1px solid rgba(21,21,36,.1)">
+    <div style="max-width:1440px;margin:0 auto;padding:40px clamp(20px,4vw,56px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <x-import component-from-global-scope="pixel-art" from="./pixel.js" frames="mascot-a,mascot-b,mascot-a,mascot-c" fps="4" ramp="sunset" px="3" hint-size="48px,48px"></x-import>
+        <span style="font-size:17px;font-weight:600;letter-spacing:-.02em">{{ name }}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:24px;font-size:15px"><a href="Accueil.dc.html" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Accueil</a><a href="Projets.dc.html" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Projets</a><a href="#" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">GitHub</a><a href="Accueil.dc.html#contact" style-hover="text-decoration:underline;text-decoration-color:#FA500F;text-decoration-thickness:2px;text-underline-offset:5px">Contact</a></div>
+      <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A4A5C">© 2026 {{ name }}</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;name&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Prénom Nom&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;note&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#B9DAFF&quot;,&quot;#94EACC&quot;,&quot;#FEC63A&quot;,&quot;#E3DCC8&quot;],&quot;default&quot;:&quot;#B9DAFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Couleur d'appoint (ex-rose)&quot;}}">
+class Component extends DCLogic {
+  state = { data: (typeof window !== 'undefined' && window.VEILLE) || null, tag: 'tous', w: typeof window !== 'undefined' ? window.innerWidth : 1440 };
+  applyNote() { document.documentElement.style.setProperty('--note', this.props.note ?? '#B9DAFF'); }
+  componentDidUpdate(pp) { if (pp.note !== this.props.note) this.applyNote(); }
+  componentDidMount() {
+    this.applyNote();
+    if (!this.state.data) {
+      let n = 0;
+      this.poll = setInterval(() => { if (window.VEILLE || ++n > 50) { clearInterval(this.poll); if (window.VEILLE) this.setState({ data: window.VEILLE }); } }, 100);
+    }
+    const q = new URLSearchParams(location.search).get('sujet');
+    if (q) this.setState({ tag: q });
+    this.onR = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this.onR);
+  }
+  componentWillUnmount() { clearInterval(this.poll); window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const D = this.state.data || { updated: '—', topics: {}, entries: [], radar: [], sources: [] };
+    const tag = this.state.tag;
+    const all = D.entries.map((e, i) => ({ ...e, n: String(D.entries.length - i).padStart(3, '0'), topic: (D.topics[e.tag] || {}).label || e.tag, dot: (D.topics[e.tag] || {}).dot || '#151524' }));
+    const entries = tag === 'tous' ? all : all.filter(e => e.tag === tag);
+    const chip = (k, label, dot, count) => {
+      const on = k === tag;
+      return { label, count: String(count).padStart(2, '0'), dot: on && dot === '#151524' ? '#FF8204' : dot, bg: on ? '#151524' : 'transparent', fg: on ? '#F2F1E8' : '#151524', border: on ? '#151524' : 'rgba(21,21,36,.22)', go: () => this.setState({ tag: k }) };
+    };
+    const ringDots = ['#44BA82', '#FEC63A', 'var(--note,#B9DAFF)'];
+    return {
+      name: this.props.name ?? 'Prénom Nom',
+      wide: this.state.w >= 900,
+      updated: D.updated,
+      total: String(D.entries.length).padStart(2, '0'),
+      sourcesCount: String(D.sources.length).padStart(2, '0'),
+      chips: [chip('tous', 'Tout', '#151524', all.length), ...Object.keys(D.topics).map(k => chip(k, D.topics[k].label, D.topics[k].dot, all.filter(e => e.tag === k).length)).filter(c => c.count !== '00')],
+      entries,
+      empty: this.state.data && entries.length === 0,
+      radar: D.radar.map((r, i) => ({ ...r, dot: ringDots[i] || '#F2F1E8' })),
+      sources: D.sources
+    };
+  }
+}
+</script>
+</body>
+</html>

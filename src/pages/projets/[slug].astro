@@ -1,0 +1,397 @@
+---
+// Étude de cas — modèle générique alimenté par src/content/projets/<slug>.md (champ `etude` + corps Markdown).
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PixelArt from '../../components/PixelArt.astro';
+import { getProjets, dotOf, hrefOf, num, type Projet } from '../../lib/projets';
+import { SITE } from '../../data/site';
+import { RAMPS } from '../../lib/pixel';
+
+export async function getStaticPaths() {
+  const projets = await getProjets();
+  return projets
+    .filter((p) => p.data.etude)
+    .map((p) => {
+      const i = projets.indexOf(p);
+      const next = projets[(i + 1) % projets.length];
+      return { params: { slug: p.id }, props: { projet: p, next } };
+    });
+}
+
+interface Props { projet: Projet; next: Projet }
+const { projet, next } = Astro.props;
+const d = projet.data;
+const e = d.etude!;
+const { Content } = await render(projet);
+const firstDomain = d.domaines[0];
+
+const toc = [
+  { id: 'contexte', label: 'Contexte' },
+  { id: 'probleme', label: 'Problème' },
+  { id: 'solution', label: 'Solution' },
+  { id: 'resultats', label: 'Résultats' },
+  { id: 'schema', label: 'Schéma' },
+  { id: 'stack', label: 'Stack' },
+];
+const nextTitle = next.data.accroche ?? [next.data.titre, ''];
+const ramp = RAMPS[d.ramp];
+const panelVars = `--r1:${ramp[0]};--r2:${ramp[1]};--r3:${ramp[2]};--r4:${ramp[3]}`;
+const nextShort = next.data.categorie.split('·')[0].trim();
+---
+<BaseLayout
+  title={d.titre}
+  description={`${e.titre.join(' ')} ${e.sousTitre}`}
+  active="projets"
+  navVariant="home"
+  footerLinks={[
+    { href: SITE.linkedin, label: 'LinkedIn' },
+    { href: SITE.github, label: 'GitHub' },
+    { href: '/#contact', label: 'Contact' },
+  ]}
+>
+  <article class="cs">
+    <section class="container cs__hero">
+      <div class="micro cs__crumbs">
+        <a href={`/projets?domaine=${firstDomain}`} class="cs__back"><span class="cs__larr" aria-hidden="true">←</span>Projets / {num(d.ordre)}</a>
+        <span class="cs__cat"><span class="sq" style={`background:${dotOf(projet)}`}></span>{d.categorie}</span>
+      </div>
+      <div class="cs__row">
+        <div class="cs__left">
+          <h1 class="cs__h1" data-rt>
+            <span class="rl-wrap"><span class="rl" data-rl>{e.titre[0]}</span></span>
+            <span class="rl-wrap"><span class="rl" data-rl>{e.titre[1]}</span></span>
+          </h1>
+          <p class="lead">{e.sousTitre}</p>
+        </div>
+        <div class="cs__panel" aria-hidden="true" style={panelVars}>
+          <div class="cs__pgrid"></div>
+          <div class="cs__blk cs__blk--1"></div>
+          <div class="cs__blk cs__blk--2"></div>
+          <div class="cs__blk cs__blk--3"></div>
+          <span class="grain" style="opacity:.45"></span>
+          <div class="cs__parc"></div>
+          <span class="micro micro--cell cs__plbl cs__plbl--tl">Fig. {num(d.ordre)}</span>
+          <span class="micro micro--cell cs__plbl cs__plbl--br">{e.legende}</span>
+          <span class="micro micro--cell cs__plbl cs__plbl--v">Étude de cas — {num(d.ordre)}</span>
+          <div class="cs__ppx"><PixelArt art={d.art} ramp={d.ramp} px={14} /></div>
+        </div>
+      </div>
+      <dl class="cs__meta">
+        <div><dt class="micro micro--cell">Rôle</dt><dd>{e.meta.role}</dd></div>
+        <div><dt class="micro micro--cell">Période</dt><dd>{e.meta.periode}</dd></div>
+        <div><dt class="micro micro--cell">Contexte</dt><dd>{e.meta.contexte}</dd></div>
+        <div><dt class="micro micro--cell">Statut</dt><dd class="cs__status"><span class="sq" style="background:#44BA82"></span>{e.meta.statut}</dd></div>
+      </dl>
+    </section>
+
+    <section class="container cs__body">
+      <nav class="cs__toc" aria-label="Sommaire">
+        {toc.map((t, i) => <a href={`#${t.id}`} class="link-u"><span>{t.label}</span><span>{num(i + 1)}</span></a>)}
+      </nav>
+
+      <div class="cs__content">
+        <section id="contexte" class="cs__sec">
+          <span class="micro">01 — Contexte</span>
+          <h2 class="cs__h2">{e.contexte.titre}</h2>
+          <div class="cs__prose"><Content /></div>
+        </section>
+
+        <section id="probleme" class="cs__sec">
+          <span class="micro">02 — Problème</span>
+          <h2 class="cs__h2">{e.probleme.titre}</h2>
+          <p class="cs__p">{e.probleme.texte}</p>
+          <ul class="cs__cons">
+            {e.probleme.contraintes.map((c, i) => (
+              <li><span class="micro micro--cell">Contrainte {i + 1}</span><span class="cs__cont">{c}</span></li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="solution" class="cs__sec">
+          <span class="micro">03 — Solution</span>
+          <h2 class="cs__h2">{e.solution.titre}</h2>
+          <ol class="cs__steps">
+            {e.solution.etapes.map((s, i) => (
+              <li>
+                <span class="cs__stepn">{num(i + 1)}</span>
+                <div class="cs__stepb"><span class="cs__stept">{s.titre}</span><span class="cs__steps-t">{s.texte}</span></div>
+              </li>
+            ))}
+          </ol>
+          {e.solution.code && (
+            <figure class="cs__code">
+              <figcaption class="cs__codeh"><span>{e.solution.code.titre}</span><span>{e.solution.code.lang}</span></figcaption>
+              <pre class="cs__pre" tabindex="0"><code>{e.solution.code.lignes.map((l) =>
+                'cmd' in l
+                  ? <span class="cs__ln"><span class="cs__prompt"># </span>{l.cmd}</span>
+                  : <span class="cs__ln"><span class="cs__k">  {l.cle}</span><span class={l.ok ? 'cs__ok' : 'cs__ko'}>{l.valeur}</span></span>
+              )}</code></pre>
+            </figure>
+          )}
+        </section>
+
+        <section id="resultats" class="cs__sec">
+          <span class="micro">04 — Résultats</span>
+          <h2 class="cs__h2">{e.resultats.titre}</h2>
+          <ul class="cs__nums">
+            {e.resultats.chiffres.map((c, i) => (
+              <li><span class:list={['cs__num', { 'cs__num--hl': i === 0 }]}>{c.valeur}</span><span class="cs__numl">{c.label}</span></li>
+            ))}
+          </ul>
+          {e.resultats.texte && <p class="cs__p">{e.resultats.texte}</p>}
+        </section>
+
+        <section id="schema" class="cs__sec">
+          <span class="micro">05 — Schéma</span>
+          <figure class="cs__schema">
+            <div class="cs__sgrid" aria-hidden="true"></div>
+            <div class="cs__srow">
+              <div class="cs__node">
+                <span class="micro micro--cell cs__mute">Source</span>
+                <span class="cs__nname">{e.schema.source.nom}</span>
+                <span class="cs__ndet">{e.schema.source.detail}</span>
+              </div>
+              <div class="cs__link">
+                <span class="micro micro--cell" style="color:#55B3FB">{e.schema.lien.haut}</span>
+                <div class="cs__dash"></div>
+                <span class="micro micro--cell cs__mute">{e.schema.lien.bas}</span>
+              </div>
+              <div class="cs__node cs__node--target">
+                <div class="cs__nhead">
+                  <div class="cs__ncol"><span class="micro micro--cell cs__mute">Cible</span><span class="cs__nname">{e.schema.cible.nom}</span></div>
+                  <PixelArt art={e.schema.cible.icone ?? d.art} ramp={d.ramp} px={2} />
+                </div>
+                <div class="cs__ds">{e.schema.cible.elements.map((x) => <span>{x}</span>)}</div>
+                <span class="micro micro--cell cs__green"><span class="sq" style="background:#44BA82"></span>{e.schema.cible.note}</span>
+              </div>
+            </div>
+          </figure>
+        </section>
+
+        <section id="stack" class="cs__sec">
+          <span class="micro">06 — Stack utilisée</span>
+          <ul class="cs__stack">
+            {e.stack.map((s) => <li class="chip cs__chip"><span class="sq sq--6" style={`background:${s.couleur}`}></span>{s.label}</li>)}
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <a href={hrefOf(next)} class="cs__next" data-hover-host>
+      <div class="cs__ngrid" aria-hidden="true"></div>
+      <div class="cs__narc" aria-hidden="true"></div>
+      <span class="grain" style="opacity:.55" aria-hidden="true"></span>
+      <div class="container cs__nin">
+        <div class="cs__ntxt">
+          <span class="micro cs__nlabel">Projet suivant — {num(next.data.ordre)} / {nextShort}</span>
+          <span class="cs__ntitle">{nextTitle[0]}{nextTitle[1] && <><br />{nextTitle[1]}</>}</span>
+        </div>
+        <div class="cs__ngo">
+          <PixelArt art={next.data.art} variant="white" px={6} />
+          <span class="cs__nbtn" aria-hidden="true">→</span>
+        </div>
+      </div>
+    </a>
+  </article>
+</BaseLayout>
+
+<style>
+  .cs__hero { padding-top: clamp(24px, 3vw, 40px); }
+  .cs__crumbs { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  .cs__back { display: flex; gap: 10px; }
+  .cs__back:hover { color: var(--fg); }
+  .cs__larr { color: #FA500F; }
+  .cs__cat { display: flex; align-items: center; gap: 8px; }
+  .cs__row { display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 56px); margin-top: clamp(28px, 4vw, 56px); align-items: stretch; }
+  .cs__left { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
+  .cs__h1 { font-size: clamp(52px, 7vw, 108px); font-weight: 500; line-height: .93; letter-spacing: -.045em; }
+  .cs__panel {
+    flex: 1 1 520px;
+    min-width: 0;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #151524;
+    display: grid;
+    place-items: center;
+  }
+  .cs__pgrid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(242, 241, 232, .08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(242, 241, 232, .08) 1px, transparent 1px);
+    background-size: 12.5% 16.666%;
+  }
+  .cs__blk { position: absolute; }
+  .cs__blk--1 { left: 0; bottom: 0; width: 37.5%; height: 33.33%; background: linear-gradient(135deg, var(--r1), var(--r2)); }
+  .cs__blk--2 { right: 0; top: 0; width: 25%; height: 16.666%; background: var(--r3); }
+  .cs__blk--3 { right: 12.5%; top: 16.666%; width: 12.5%; height: 16.666%; background: var(--r4); }
+  .cs__parc { position: absolute; z-index: 2; width: 110%; aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(242, 241, 232, .22); left: -30%; top: -60%; }
+  .cs__plbl { position: absolute; z-index: 2; color: #A9A89F; }
+  .cs__plbl--tl { left: 14px; top: 14px; }
+  .cs__plbl--br { right: 14px; bottom: 14px; }
+  .cs__plbl--v { left: 14px; top: 50%; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); }
+  .cs__ppx { position: relative; z-index: 3; }
+  .cs__ppx :global(svg) { max-width: 55vw; height: auto; }
+
+  .cs__meta {
+    margin: clamp(28px, 3vw, 40px) 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .cs__meta > div { padding: 18px 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+  .cs__meta dd { margin: 0; font-size: 17px; font-weight: 500; }
+  .cs__status { display: flex; align-items: center; gap: 8px; }
+
+  .cs__body {
+    padding-top: clamp(64px, 8vw, 112px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: flex-start;
+  }
+  .cs__toc {
+    flex: 0 1 240px;
+    position: sticky;
+    top: 96px;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line2);
+  }
+  .cs__toc a {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 880px) { .cs__toc { position: static; flex-basis: 100%; } }
+  .cs__content { flex: 1 1 560px; min-width: 0; max-width: 880px; display: flex; flex-direction: column; gap: clamp(56px, 6vw, 88px); }
+  .cs__sec { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 96px; }
+  .cs__h2 { font-size: clamp(32px, 3.4vw, 48px); font-weight: 500; line-height: 1; letter-spacing: -.035em; }
+  .cs__p, .cs__prose :global(p) { font-size: 18px; line-height: 1.6; text-wrap: pretty; }
+  .cs__prose { display: flex; flex-direction: column; gap: 14px; }
+  .cs__prose :global(a) { text-decoration: underline; text-decoration-color: #FA500F; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+
+  .cs__cons {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .cs__cons li { padding: 18px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+  .cs__cont { font-size: 16px; line-height: 1.4; }
+
+  .cs__steps { list-style: none; padding: 0; border-top: 1px solid var(--line2); }
+  .cs__steps li { display: flex; gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .cs__stepn { flex: 0 0 40px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); padding-top: 3px; }
+  .cs__stepb { display: flex; flex-direction: column; gap: 4px; }
+  .cs__stept { font-size: 19px; font-weight: 500; letter-spacing: -.01em; }
+  .cs__steps-t { font-size: 16px; line-height: 1.5; color: var(--muted); }
+
+  .cs__code { border: 1px solid var(--line); margin: 0; background: #151524; color: #F2F1E8; border-radius: 8px; overflow: hidden; font-family: var(--font-mono); font-size: 13px; line-height: 1.75; }
+  .cs__codeh {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(242, 241, 232, .1);
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #A9A89F;
+  }
+  .cs__pre { margin: 0; padding: 16px 18px; overflow-x: auto; font: inherit; }
+  .cs__pre code { display: flex; flex-direction: column; font: inherit; }
+  .cs__ln { white-space: pre; }
+  .cs__prompt { color: #FF8204; }
+  .cs__k { color: #A9A89F; }
+  .cs__ok { color: #44BA82; }
+  .cs__ko { color: #FA500F; }
+
+  .cs__nums { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+  .cs__nums li { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .cs__num { font-size: clamp(44px, 4.4vw, 64px); font-weight: 500; letter-spacing: -.045em; line-height: 1; }
+  .cs__num--hl { color: #FA500F; }
+  .cs__numl { font-size: 15px; line-height: 1.4; color: var(--muted); }
+
+  .cs__schema { border: 1px solid var(--line); margin: 0; position: relative; background: #151524; color: #F2F1E8; border-radius: 8px; overflow: hidden; padding: clamp(20px, 3vw, 36px); }
+  .cs__sgrid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(242, 241, 232, .07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(242, 241, 232, .07) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .cs__srow { position: relative; display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px; }
+  .cs__node { flex: 1 1 200px; border: 1px solid rgba(242, 241, 232, .2); border-radius: 8px; background: #1C1C2E; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .cs__node--target { flex: 1.4 1 260px; border-color: rgba(68, 186, 130, .5); }
+  .cs__mute { color: #A9A89F; }
+  .cs__nname { font-size: 20px; font-weight: 500; }
+  .cs__ndet { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: #B4B3AA; }
+  .cs__link { flex: 1 1 160px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; padding: 8px 0; }
+  .cs__dash { width: 100%; border-top: 2px dashed #55B3FB; }
+  .cs__nhead { display: flex; justify-content: space-between; align-items: flex-start; }
+  .cs__ncol { display: flex; flex-direction: column; gap: 6px; }
+  .cs__ds { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-family: var(--font-mono); font-size: 12px; }
+  .cs__ds span { padding: 7px 9px; border: 1px solid rgba(242, 241, 232, .16); border-radius: 4px; }
+  .cs__green { display: flex; align-items: center; gap: 8px; color: #44BA82; }
+
+  .cs__stack { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .cs__chip { height: 38px; padding: 0 14px; font-size: 15px; }
+
+  .cs__next {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin-top: clamp(80px, 10vw, 140px);
+    background: linear-gradient(30deg, #C4001D 0%, #E61300 35%, #FA500F 62%, #FF8204 84%, #FFAF01 100%);
+    color: #FFFFFF;
+  }
+  .cs__ngrid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, .22) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, .22) 1px, transparent 1px);
+    background-size: 120px 120px;
+  }
+  .cs__narc { position: absolute; width: 900px; height: 900px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .4); right: -300px; top: -600px; }
+  .cs__nin {
+    position: relative;
+    z-index: 2;
+    padding-top: clamp(56px, 7vw, 96px);
+    padding-bottom: clamp(56px, 7vw, 96px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+  }
+  .cs__ntxt { display: flex; flex-direction: column; gap: 16px; }
+  .cs__nlabel { color: #151524; }
+  .cs__ntitle { font-size: clamp(40px, 5.4vw, 80px); font-weight: 500; line-height: .95; letter-spacing: -.045em; }
+  .cs__ngo { display: flex; align-items: center; gap: 20px; }
+  .cs__nbtn {
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    background: #151524;
+    color: #FF8204;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    font-family: var(--font-sans);
+    transition: transform .5s var(--expo);
+  }
+  .cs__next:hover .cs__nbtn { transform: translateX(6px); }
+</style>

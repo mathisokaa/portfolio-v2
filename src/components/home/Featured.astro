@@ -1,0 +1,95 @@
+---
+import ProjectCard from '../ProjectCard.astro';
+import { getProjets, dotOf, hrefOf, num } from '../../lib/projets';
+
+const projets = await getProjets();
+const total = num(projets.length);
+---
+<section id="projets" class="fp" aria-labelledby="fp-title" data-carousel>
+  <div class="fp__head container">
+    <div class="fp__titles">
+      <span class="micro">02 — Projets phares</span>
+      <h2 id="fp-title" class="h2" data-rt>
+        <span class="rl-wrap"><span class="rl" data-rl>Des projets réels.</span></span>
+        <span class="rl-wrap"><span class="rl" data-rl>En production.</span></span>
+      </h2>
+    </div>
+    <div class="fp__ctrl">
+      <a href="/projets" class="link-arrow fp__all">Tous les projets <span class="arrow" aria-hidden="true">→</span></a>
+      <span class="fp__count" aria-live="polite"><span data-car-idx>01</span> / {total}</span>
+      <button type="button" class="btn-square btn-square--secondary" aria-label="Projet précédent" data-car-prev>←</button>
+      <button type="button" class="btn-square btn-square--primary" aria-label="Projet suivant" data-car-next>→</button>
+    </div>
+  </div>
+  <ul class="fp__track" data-car-track aria-label="Projets phares">
+    {projets.map((p) => (
+      <li class="fp__item">
+        <ProjectCard
+          href={hrefOf(p)}
+          fig={`Fig. 02.${p.data.ordre}`}
+          legende={p.data.legende}
+          art={p.data.art}
+          ramp={p.data.ramp}
+          dot={dotOf(p)}
+          categorie={p.data.categorie}
+          titre={p.data.titre}
+          impact={p.data.impact}
+          pied={p.data.contexte}
+          class="fp__card"
+        />
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .fp { padding-top: clamp(72px, 9vw, 128px); }
+  .fp__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px; }
+  .fp__titles { display: flex; flex-direction: column; gap: 20px; }
+  .fp__ctrl { display: flex; align-items: center; gap: 14px; }
+  .fp__all { margin-right: 12px; }
+  .fp__count { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+  .fp__track {
+    --pad: max(var(--gutter), calc((100% - 1328px) / 2));
+    list-style: none;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 40px var(--pad) 28px;
+    scroll-padding-left: var(--pad);
+  }
+  .fp__track::-webkit-scrollbar { display: none; }
+  .fp__item { flex: 0 0 min(500px, 84vw); scroll-snap-align: start; display: flex; }
+  .fp__item :global(.fp__card) { flex: 1; }
+</style>
+
+<script>
+  function initCarousel() {
+    document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+      const track = root.querySelector<HTMLElement>('[data-car-track]');
+      const idx = root.querySelector<HTMLElement>('[data-car-idx]');
+      if (!track || !idx) return;
+      const items = track.children;
+      const rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const step = () => (items.length > 1 ? (items[1] as HTMLElement).offsetLeft - (items[0] as HTMLElement).offsetLeft : 520);
+      const go = (dir: number) => track.scrollBy({ left: dir * step(), behavior: rm ? 'auto' : 'smooth' });
+      root.querySelector('[data-car-prev]')?.addEventListener('click', () => go(-1));
+      root.querySelector('[data-car-next]')?.addEventListener('click', () => go(1));
+      let raf = 0;
+      track.addEventListener('scroll', () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const maxScroll = track.scrollWidth - track.clientWidth;
+          let i = Math.round(track.scrollLeft / step());
+          if (track.scrollLeft >= maxScroll - 2) i = items.length - 1;
+          i = Math.max(0, Math.min(items.length - 1, i));
+          idx.textContent = String(i + 1).padStart(2, '0');
+        });
+      }, { passive: true });
+    });
+  }
+  document.addEventListener('astro:page-load', initCarousel);
+</script>

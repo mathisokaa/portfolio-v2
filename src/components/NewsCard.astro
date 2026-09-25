@@ -1,0 +1,25 @@
+---
+interface Props { href: string; type: string; date: string; texte: string }
+const { href, type, date, texte } = Astro.props;
+---
+<a href={href} class="news">
+  <div class="micro micro--cell news__meta"><span>{type}</span><span>{date}</span></div>
+  <div class="news__txt"><span>{texte}</span><span class="arrow news__arrow" aria-hidden="true">→</span></div>
+</a>
+
+<style>
+  .news {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    transition: border-color .2s;
+  }
+  .news:hover { border-color: var(--line2); }
+  .news__meta { display: flex; justify-content: space-between; gap: 12px; }
+  .news__txt { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; line-height: 1.35; font-weight: 500; }
+  .news__arrow { font-size: 15px; line-height: 1.35; }
+</style>

@@ -1,0 +1,133 @@
+---
+import PixelArt from './PixelArt.astro';
+import Mascot from './Mascot.astro';
+import { SITE } from '../data/site';
+
+export interface FooterLink { href: string; label: string }
+
+interface Props {
+  variant?: 'full' | 'compact';
+  links?: FooterLink[];
+}
+const {
+  variant = 'compact',
+  links = [
+    { href: '/', label: 'Accueil' },
+    { href: '/projets', label: 'Projets' },
+    { href: SITE.github, label: 'GitHub' },
+    { href: '/#contact', label: 'Contact' },
+  ],
+} = Astro.props;
+
+const year = 2026;
+---
+{variant === 'full' ? (
+  <footer class="ft">
+    <div class="ft__in container">
+      <div class="ft__top">
+        <div class="ft__brand">
+          <div class="ft__lockup">
+            <PixelArt art="emblem" px={2} />
+            <span class="ft__name">{SITE.name}</span>
+          </div>
+          <p class="ft__tagline">Administrateur systèmes. Windows Server le jour, Linux et conteneurs le soir.</p>
+        </div>
+        <div class="ft__cols">
+          <div class="ft__col">
+            <span class="micro micro--cell ft__h">Site</span>
+            <a class="link-u" href="/projets">Projets</a>
+            <a class="link-u" href="/#homelab">Homelab</a>
+            <a class="link-u" href="/#parcours">Parcours</a>
+            <a class="link-u" href="/veille">Veille</a>
+            <a class="link-u" href="/#contact">Contact</a>
+          </div>
+          <div class="ft__col">
+            <span class="micro micro--cell ft__h">Réseaux</span>
+            <a class="link-u" href={SITE.linkedin} rel="me noopener">LinkedIn</a>
+            <a class="link-u" href={SITE.github} rel="me noopener">GitHub</a>
+            <a class="link-u" href={`mailto:${SITE.email}`}>Email</a>
+          </div>
+          <div class="ft__col">
+            <span class="micro micro--cell ft__h">Documents</span>
+            <a class="link-u" href={SITE.cv}>CV — PDF</a>
+            <a class="link-u" href="/projets/migration-unraid-proxmox">Étude de cas</a>
+          </div>
+        </div>
+      </div>
+      <div class="ft__bottom">
+        <div class="ft__pid">
+          <Mascot px={4} />
+          <span class="micro micro--cell ft__pidtxt">pid 1 · veille sur le homelab</span>
+        </div>
+        <span class="micro micro--cell">© {year} {SITE.name} · hébergé sur mon homelab</span>
+      </div>
+    </div>
+    <div class="ft__glow" aria-hidden="true"><span class="grain" style="opacity:.35"></span></div>
+  </footer>
+) : (
+  <footer class="ftc">
+    <div class="ftc__in container">
+      <div class="ftc__brand">
+        <Mascot px={3} />
+        <span class="ftc__name">{SITE.name}</span>
+      </div>
+      <div class="ftc__links">
+        {links.map((l) => <a class="link-u" href={l.href}>{l.label}</a>)}
+      </div>
+      <span class="micro micro--cell">© {year} {SITE.name}</span>
+    </div>
+  </footer>
+)}
+
+<style>
+  .ft { position: relative; overflow: hidden; background: var(--bg); }
+  .ft__in {
+    position: relative;
+    z-index: 2;
+    padding-top: clamp(56px, 6vw, 88px);
+    padding-bottom: 40px;
+  }
+  .ft__top { display: flex; flex-wrap: wrap; gap: 40px 56px; justify-content: space-between; }
+  .ft__brand { flex: 1 1 280px; display: flex; flex-direction: column; gap: 18px; max-width: 360px; }
+  .ft__lockup { display: flex; align-items: center; gap: 12px; }
+  .ft__name { font-size: 20px; font-weight: 600; letter-spacing: -.02em; }
+  .ft__tagline { font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .ft__cols { flex: 1 1 380px; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 28px; }
+  .ft__col { display: flex; flex-direction: column; gap: 10px; font-size: 15px; align-items: flex-start; }
+  .ft__h { margin-bottom: 4px; }
+  .ft__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .ft__pid { display: flex; align-items: flex-end; gap: 14px; }
+  .ft__pidtxt { padding-bottom: 6px; }
+  .ft__glow {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 160px;
+    background: linear-gradient(180deg, rgba(255, 175, 1, 0) 0%, rgba(255, 130, 4, .14) 60%, rgba(250, 80, 15, .3) 100%);
+    pointer-events: none;
+  }
+
+  .ftc { background: var(--bg); border-top: 1px solid var(--line); }
+  .ftc__in {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .ftc__brand { display: flex; align-items: center; gap: 12px; }
+  .ftc__name { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
+  .ftc__links { display: flex; flex-wrap: wrap; gap: 24px; font-size: 15px; }
+  .ftc__links a { display: inline-flex; align-items: center; min-height: 44px; }
+  @media (pointer: fine) { .ftc__links a { min-height: 0; } }
+</style>

@@ -1,0 +1,39 @@
+---
+import { PARCOURS } from '../../data/accueil';
+---
+<section id="parcours" class="pa container" aria-labelledby="pa-title">
+  <div class="pa__row">
+    <div class="pa__head">
+      <span class="micro">05 — Parcours &amp; certifications</span>
+      <h2 id="pa-title" class="h2" data-rt>
+        <span class="rl-wrap"><span class="rl" data-rl>Du BTS.</span></span>
+        <span class="rl-wrap"><span class="rl" data-rl>À la prod.</span></span>
+      </h2>
+    </div>
+    <ol class="pa__list">
+      {PARCOURS.map((p) => (
+        <li class="pa__item">
+          <span class="pa__date">{p.dates}</span>
+          <div class="pa__body">
+            <span class="pa__title">{p.titre}</span>
+            <span class="pa__txt">{p.texte}</span>
+          </div>
+          <span class="tag pa__tag">{p.tag}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .pa { padding-top: clamp(80px, 10vw, 140px); padding-bottom: clamp(80px, 10vw, 140px); }
+  .pa__row { display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 80px); }
+  .pa__head { flex: 1 1 300px; display: flex; flex-direction: column; gap: 20px; }
+  .pa__list { flex: 2 1 560px; list-style: none; padding: 0; border-top: 1px solid var(--line2); }
+  .pa__item { display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .pa__date { flex: 0 0 150px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding-top: 6px; }
+  .pa__body { flex: 1 1 300px; display: flex; flex-direction: column; gap: 6px; }
+  .pa__title { font-size: 22px; font-weight: 500; letter-spacing: -.02em; }
+  .pa__txt { font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .pa__tag { align-self: flex-start; }
+</style>

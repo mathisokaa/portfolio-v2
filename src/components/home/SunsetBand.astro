@@ -1,0 +1,11 @@
+---
+const steps = ['#FFAF01', '#FF8204', '#FA500F', '#E61300', '#C4001D'];
+---
+<div class="band container" aria-hidden="true">
+  <div class="band__row">{steps.flatMap((c) => Array.from({ length: 4 }, () => <span style={`background:${c}`}></span>))}</div>
+</div>
+
+<style>
+  .band { margin-top: clamp(72px, 9vw, 120px); }
+  .band__row { display: grid; grid-template-columns: repeat(20, 1fr); height: 16px; }
+</style>

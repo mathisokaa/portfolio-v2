@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"><style>@keyframes ttyblink{0%,49%{opacity:1}50%,100%{opacity:0}}html,body{margin:0}</style></helmet>
+<div onClick="{{ focus }}" style="position:relative;box-sizing:border-box;display:flex;flex-direction:column;height:100%;min-height:340px;background:#151524;color:#F2F1E8;border-radius:8px;border:1px solid rgba(242,241,232,.12);box-shadow:0 32px 64px -24px rgba(21,21,36,.55),0 10px 24px -12px rgba(21,21,36,.35);overflow:hidden;font-family:'Geist Mono',ui-monospace,monospace;cursor:text;text-align:left">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid rgba(242,241,232,.1);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#A9A89F">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;gap:4px"><span style="width:8px;height:8px;background:#FA500F"></span><span style="width:8px;height:8px;background:#FFAF01"></span><span style="width:8px;height:8px;background:rgba(242,241,232,.25)"></span></div>
+      <span>tty1 · ssh visiteur@homelab</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="width:6px;height:6px;background:#44BA82"></span><span>{{ status }}</span></div>
+  </div>
+  <div ref="{{ outRef }}" style="flex:1;min-height:0;overflow-y:auto;padding:18px 20px 14px;font-size:13px;line-height:1.7;scrollbar-width:thin;scrollbar-color:rgba(242,241,232,.2) transparent">
+    <sc-for list="{{ lines }}" as="l" hint-placeholder-count="0">
+      <div style="white-space:pre-wrap;word-break:break-word;min-height:1.7em"><sc-for list="{{ l.segs }}" as="s" hint-placeholder-count="0"><span style="color:{{ s.c }}">{{ s.t }}</span></sc-for></div>
+    </sc-for>
+    <div style="white-space:pre-wrap;word-break:break-all"><span style="color:#FF8204">visiteur@homelab</span><span style="color:#A9A89F">:~$ </span><span>{{ input }}</span>{{ cursor }}</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px 18px;padding:10px 16px;border-top:1px solid rgba(242,241,232,.1);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#A9A89F">
+    <span>Tab — compléter</span><span>↑ ↓ — historique</span><span>help — commandes</span>
+  </div>
+  <input ref="{{ inRef }}" value="{{ input }}" onChange="{{ onInput }}" onKeyDown="{{ onKey }}" onFocus="{{ onFocus }}" onBlur="{{ onBlur }}" aria-label="Terminal : tapez une commande" autoComplete="off" autoCapitalize="off" spellCheck="false" style="position:absolute;left:0;bottom:0;width:1px;height:1px;opacity:0;border:0;padding:0;font-size:16px">
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:620,&quot;height&quot;:460},&quot;owner&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Prénom Nom&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;contact@prenom-nom.fr&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;autoDemo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { lines: [], input: '', hist: [], hi: -1, demo: true, focused: false, id: 0 };
+  outRef = React.createRef();
+  inRef = React.createRef();
+  timers = [];
+  CMDS = ['help', 'whoami', 'ls projets', 'cat stack', 'ping contact', 'history', 'clear'];
+  C = { cream: '#F2F1E8', mute: '#A9A89F', or: '#FF8204', blue: '#55B3FB', green: '#44BA82', amber: '#FEC63A', red: '#FA500F' };
+
+  componentDidMount() {
+    this.rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.push([[['Connexion établie — clé ed25519 vérifiée.', this.C.mute]]]);
+    const auto = this.props.autoDemo ?? true;
+    if (!auto) return this.endDemo(false);
+    if (this.rm) { this.exec('whoami'); this.exec('ls projets'); return this.endDemo(true); }
+    this.script(['whoami', 'ls projets']);
+  }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  componentDidUpdate() { const o = this.outRef.current; if (o) o.scrollTop = o.scrollHeight; }
+  later(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+
+  script(cmds) {
+    let t = 900;
+    cmds.forEach(cmd => {
+      [...cmd].forEach(ch => { this.later(() => this.setState(s => ({ input: s.input + ch })), t); t += 55 + ((ch.charCodeAt(0) * 37) % 60); });
+      t += 320;
+      this.later(() => { this.setState({ input: '' }); this.exec(cmd); }, t);
+      t += 1300;
+    });
+    this.later(() => this.endDemo(true), t);
+  }
+  endDemo(hint) {
+    this.timers.forEach(clearTimeout); this.timers = [];
+    this.setState({ demo: false, input: '' });
+    if (hint) this.push([[['→ À vous. Tapez ', this.C.mute], ['help', this.C.amber], [' ou appuyez sur Tab.', this.C.mute]]]);
+  }
+
+  push(rows) {
+    this.setState(s => {
+      let id = s.id;
+      const add = rows.map(r => ({ id: ++id, segs: r.map(([t, c]) => ({ t, c: c || this.C.cream })) }));
+      return { lines: [...s.lines, ...add].slice(-160), id };
+    });
+  }
+
+  exec(raw) {
+    const cmd = raw.trim().replace(/\s+/g, ' ');
+    const C = this.C;
+    this.push([[['visiteur@homelab', C.or], [':~$ ', C.mute], [raw, C.cream]]]);
+    if (!cmd) return;
+    this.setState(s => ({ hist: [...s.hist, cmd], hi: -1 }));
+    const owner = this.props.owner ?? 'Prénom Nom';
+    const email = this.props.email ?? 'contact@prenom-nom.fr';
+    const low = cmd.toLowerCase();
+    if (low === 'help') return this.push([
+      [['Commandes disponibles', C.mute]],
+      [['  whoami        ', C.amber], ['qui je suis']],
+      [['  ls projets    ', C.amber], ['projets phares']],
+      [['  cat stack     ', C.amber], ['technologies du quotidien']],
+      [['  ping contact  ', C.amber], ['me joindre']],
+      [['  history       ', C.amber], ['commandes tapées']],
+      [['  clear         ', C.amber], ["effacer l'écran"]]
+    ]);
+    if (low === 'whoami') return this.push([
+      [[owner, C.cream], [' — administrateur systèmes en ESN', C.mute]],
+      [['Windows Server · Hyper-V · Active Directory · Veeam']],
+      [['BTS SIO SISR · RNCP AIS · Licence cybersécurité', C.mute]],
+      [['Hors prod : Linux, Docker, k3s, homelab sur 3 sites.', C.mute]]
+    ]);
+    if (low === 'ls projets' || low === 'ls') return this.push([
+      [['drwxr-x  stockage  ', C.mute], ['migration-unraid-proxmox/', C.blue]],
+      [['drwxr-x  réseau    ', C.mute], ['tailscale-multisite/', C.blue]],
+      [['drwxr-x  ia        ', C.mute], ['ollama-gpu-passthrough/', C.blue]],
+      [['drwxr-x  itsm      ', C.mute], ['glpi-11-ubuntu/', C.blue]],
+      [['drwxr-x  parc      ', C.mute], ['firmware-hpe-proliant/', C.blue]],
+      [['drwxr-x  sécu      ', C.mute], ['datawipe/', C.blue], ['  open source', C.amber]]
+    ]);
+    if (low === 'cat stack') return this.push([
+      [['[infra]       ', C.amber], ['Windows Server · Hyper-V · Proxmox VE · ZFS']],
+      [['[identité]    ', C.amber], ['Active Directory · GPO · DNS / DHCP']],
+      [['[sauvegarde]  ', C.amber], ['Veeam B&R · réplication hors site']],
+      [['[réseau]      ', C.amber], ['Tailscale · reverse proxy · VLAN']],
+      [['[conteneurs]  ', C.amber], ['Docker · k3s']],
+      [['[outillage]   ', C.amber], ['GLPI · Home Assistant · PowerShell · Bash']],
+      [['[ia]          ', C.amber], ['Ollama · agents auto-hébergés']]
+    ]);
+    if (low === 'ping contact' || low === 'ping') {
+      this.push([[['PING contact (100.64.0.1) 56 octets de données', C.mute]]]);
+      const n = this.rm ? 0 : 420;
+      [12, 11, 13].forEach((ms, i) => this.later(() => this.push([[['64 octets de contact : icmp_seq=' + (i + 1) + ' ttl=64 temps=' + ms + ' ms']]]), n * (i + 1)));
+      this.later(() => this.push([
+        [['3 paquets transmis, 3 reçus, 0 % de perte', C.green]],
+        [['email     ', C.amber], [email]],
+        [['linkedin  ', C.amber], ['linkedin.com/in/prenom-nom']],
+        [['github    ', C.amber], ['github.com/prenom-nom']]
+      ]), n * 4);
+      return;
+    }
+    if (low === 'history') {
+      const h = this.state.hist;
+      return this.push(h.length ? h.map((c, i) => [['  ' + String(i + 1).padStart(3, ' ') + '  ', C.mute], [c]]) : [[['(vide)', C.mute]]]);
+    }
+    if (low === 'clear') return this.setState({ lines: [] });
+    if (low.startsWith('sudo')) return this.push([[['Accès root non accordé. Essayez ', C.mute], ['ping contact', C.amber], ['.', C.mute]]]);
+    this.push([[['zsh: commande introuvable : ' + cmd, C.red]], [['Tapez help pour la liste.', C.mute]]]);
+  }
+
+  complete() {
+    const v = this.state.input.toLowerCase();
+    const m = this.CMDS.filter(c => c.startsWith(v));
+    if (!v || m.length === 0) { if (!v) this.push([[this.CMDS.join('   '), this.C.mute]]); return; }
+    if (m.length === 1) return this.setState({ input: m[0] });
+    let p = m[0];
+    m.forEach(c => { while (!c.startsWith(p)) p = p.slice(0, -1); });
+    this.setState({ input: p });
+    this.push([[['visiteur@homelab', this.C.or], [':~$ ', this.C.mute], [this.state.input]], [[m.join('   '), this.C.mute]]]);
+  }
+
+  renderVals() {
+    const { demo, focused } = this.state;
+    const on = focused || demo;
+    return {
+      lines: this.state.lines,
+      input: this.state.input,
+      status: demo ? 'démo auto' : 'en ligne',
+      outRef: this.outRef,
+      inRef: this.inRef,
+      cursor: React.createElement('span', { style: { display: 'inline-block', width: '.62em', height: '1.2em', verticalAlign: '-0.25em', background: on ? '#F2F1E8' : 'transparent', boxShadow: 'inset 0 0 0 1px #F2F1E8', animation: this.rm || !on ? 'none' : 'ttyblink 1.05s infinite' } }),
+      focus: () => { if (this.state.demo) this.endDemo(true); const i = this.inRef.current; if (i) i.focus({ preventScroll: true }); },
+      onFocus: () => this.setState({ focused: true }),
+      onBlur: () => this.setState({ focused: false }),
+      onInput: e => { if (!this.state.demo) this.setState({ input: e.target.value }); },
+      onKey: e => {
+        if (this.state.demo) { e.preventDefault(); this.endDemo(true); return; }
+        const { hist, hi } = this.state;
+        if (e.key === 'Enter') { e.preventDefault(); const v = this.state.input; this.setState({ input: '' }); this.exec(v); }
+        else if (e.key === 'Tab') { e.preventDefault(); this.complete(); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); if (!hist.length) return; const n = hi < 0 ? hist.length - 1 : Math.max(0, hi - 1); this.setState({ hi: n, input: hist[n] }); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); if (hi < 0) return; const n = hi + 1; if (n >= hist.length) this.setState({ hi: -1, input: '' }); else this.setState({ hi: n, input: hist[n] }); }
+        else if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); this.setState({ lines: [] }); }
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
