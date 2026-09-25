@@ -41,7 +41,7 @@
   --deep: #151524;
 
   /* Typo */
-  --font-sans: 'Geist Sans', 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   /* Mise en page */
@@ -237,7 +237,7 @@ h1, h2, h3, p, ul, ol { margin: 0; }
 .btn--primary:hover { opacity: .86; }
 .btn--secondary { background: transparent; color: var(--fg); border-color: var(--line2); }
 .btn--secondary:hover { border-color: var(--fg); }
-.btn__arrow { color: #FF8204; }
+.btn__arrow { color: #FF8204; font-family: var(--font-sans); }
 .btn[disabled], .btn[aria-disabled='true'] { opacity: 1; background: #DAD9D0; color: #4A4A5C; cursor: not-allowed; }
 
 .btn-square {
@@ -263,7 +263,7 @@ h1, h2, h3, p, ul, ol { margin: 0; }
   transition: gap .3s var(--expo);
 }
 .link-arrow:hover { gap: 14px; }
-.arrow { color: #FA500F; font-size: 18px; line-height: 1; letter-spacing: 0; }
+.arrow { color: #FA500F; font-family: var(--font-sans); font-size: 18px; line-height: 1; letter-spacing: 0; }
 
 /* Lien texte : soulignement orange au survol */
 .link-u:hover {
