@@ -60,6 +60,10 @@
   color-scheme: light;
 }
 
+@media (max-width: 899.98px) {
+  :root { --nav-h: 69px; }
+}
+
 /* Thème sombre — manuel (data-theme) ou système */
 :root[data-theme='dark'] {
   --bg: #151524;

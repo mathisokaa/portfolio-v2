@@ -1,0 +1,293 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PixelArt from '../../components/PixelArt.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { DOMAINS, DOMAIN_KEYS, type FilterKey } from '../../data/domaines';
+import { getProjets, dotOf, hasEtude, hrefOf, num } from '../../lib/projets';
+import { SITE } from '../../data/site';
+
+const projets = await getProjets();
+const keys = Object.keys(DOMAINS) as FilterKey[];
+const inDom = (k: FilterKey) => (k === 'tous' ? projets : projets.filter((p) => p.data.domaines.includes(k)));
+const countLabel = (n: number) => `${num(n)} ${n > 1 ? 'projets' : 'projet'}`;
+---
+<BaseLayout
+  title="Projets"
+  description="Projets d'infrastructure en production et sur mon homelab : virtualisation, sauvegarde, réseau et sécurité, automatisation et IA locale."
+  active="projets"
+  footerLinks={[
+    { href: '/', label: 'Accueil' },
+    { href: '/veille', label: 'Veille' },
+    { href: SITE.github, label: 'GitHub' },
+    { href: '/#contact', label: 'Contact' },
+  ]}
+>
+  <div class="pj" data-dom="tous" data-dom-root>
+    <script is:inline>
+      (function () {
+        var r = document.currentScript.parentElement;
+        var q = new URLSearchParams(location.search).get('domaine');
+        if (q && ['infra', 'backup', 'reseau', 'auto'].indexOf(q) > -1) r.dataset.dom = q;
+      })();
+    </script>
+
+    <section class="pj__hero container">
+      {keys.map((k) => {
+        const d = DOMAINS[k];
+        const n = inDom(k).length;
+        return (
+          <div class="pj__view" data-view={k}>
+            <div class="micro pj__crumbs">
+              <a href="/" class="pj__back"><span class="pj__larr" aria-hidden="true">←</span>Accueil / Projets</a>
+              <span class="pj__dom"><span class="sq" style={`background:${d.dot}`}></span>{d.label}</span>
+            </div>
+            <div class="pj__row">
+              <div class="pj__left">
+                <span class="micro">{d.index}</span>
+                <h1 class="pj__h1">
+                  <span class="rl">{d.l1}</span>
+                  <span class="rl">{d.l2}</span>
+                </h1>
+                <p class="lead">{d.text}</p>
+                <ul class="pj__skills">
+                  {d.skills.map((s) => <li class="chip"><span class="sq sq--6" style={`background:${d.dot}`}></span>{s}</li>)}
+                </ul>
+              </div>
+              <div class="pj__panel" aria-hidden="true">
+                <div class="grid-bg pj__grid"></div>
+                <div class="arc pj__arc"></div>
+                <span class="micro micro--cell pj__tl">Fig. {d.fig}</span>
+                <span class="micro micro--cell pj__br">{countLabel(n)}</span>
+                <span class="micro micro--cell pj__vert">{d.vert}</span>
+                <div class="pj__px"><PixelArt art={d.art} ramp={d.ramp} px={13} /></div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </section>
+
+    <div class="pj__tabs">
+      <div class="pj__tabsin container" role="group" aria-label="Filtrer par domaine">
+        {keys.map((k) => (
+          <button type="button" class="pj__tab" data-tab={k} aria-pressed="false">
+            <span class="sq sq--6 pj__tabdot" style={`--dot:${DOMAINS[k].dot}`}></span>
+            {DOMAINS[k].short}
+            <span class="pj__tabn">{num(inDom(k).length)}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <section class="pj__list container" aria-label="Liste des projets">
+      <p class="sr-only" aria-live="polite" data-dom-status></p>
+      <div class="pj__grid-cards">
+        {projets.map((p) => (
+          <ProjectCard
+            href={hrefOf(p)}
+            fig={`Fig. ${num(p.data.ordre)}`}
+            legende={p.data.legende}
+            art={p.data.art}
+            ramp={p.data.ramp}
+            dot={dotOf(p)}
+            categorie={p.data.categorie}
+            titre={p.data.titre}
+            impact={p.data.impact}
+            stack={p.data.stack}
+            pied={hasEtude(p) ? 'Étude de cas' : 'Étude de cas — bientôt'}
+            px={10}
+            data-card=""
+            data-doms={p.data.domaines.join(' ')}
+          />
+        ))}
+        {DOMAIN_KEYS.filter((k) => DOMAINS[k].placeholder).map((k) => (
+          <div class="pj__ph" data-card data-doms={k} data-only={k}>
+            <span class="micro">En rédaction</span>
+            <div class="pj__phb">
+              <span class="pj__pht">{DOMAINS[k].placeholder}</span>
+              <span class="pj__phs">Étude de cas en cours d'écriture. Détails disponibles en entretien.</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="pj__others container" aria-labelledby="pj-others">
+      <h2 id="pj-others" class="micro pj__oh">Autres domaines</h2>
+      <div class="pj__otiles">
+        {DOMAIN_KEYS.map((k) => (
+          <a href={`/projets?domaine=${k}`} class="pj__otile" data-hover-host data-goto={k}>
+            <span class="pj__olab"><PixelArt art={DOMAINS[k].art} ramp={DOMAINS[k].ramp} px={2.4} hover />{DOMAINS[k].label}</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Visibilité pilotée par [data-dom] (posé avant peinture par le script inline) */
+  .pj__view { display: none; }
+  .pj[data-dom='tous'] .pj__view[data-view='tous'],
+  .pj[data-dom='infra'] .pj__view[data-view='infra'],
+  .pj[data-dom='backup'] .pj__view[data-view='backup'],
+  .pj[data-dom='reseau'] .pj__view[data-view='reseau'],
+  .pj[data-dom='auto'] .pj__view[data-view='auto'] { display: block; }
+
+  .pj[data-dom='tous'] [data-only],
+  .pj[data-dom='infra'] [data-card]:not([data-doms~='infra']),
+  .pj[data-dom='backup'] [data-card]:not([data-doms~='backup']),
+  .pj[data-dom='reseau'] [data-card]:not([data-doms~='reseau']),
+  .pj[data-dom='auto'] [data-card]:not([data-doms~='auto']),
+  .pj[data-dom='infra'] [data-goto='infra'],
+  .pj[data-dom='backup'] [data-goto='backup'],
+  .pj[data-dom='reseau'] [data-goto='reseau'],
+  .pj[data-dom='auto'] [data-goto='auto'] { display: none; }
+
+  .pj__hero { padding-top: clamp(24px, 3vw, 40px); }
+  .pj__crumbs { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  .pj__back { display: flex; gap: 10px; }
+  .pj__back:hover { color: var(--fg); }
+  .pj__larr { color: #FA500F; }
+  .pj__dom { display: flex; align-items: center; gap: 8px; }
+  .pj__row { display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 56px); margin-top: clamp(28px, 4vw, 48px); align-items: stretch; }
+  .pj__left { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
+  .pj__h1 { font-size: clamp(52px, 7vw, 108px); font-weight: 500; line-height: .93; letter-spacing: -.045em; }
+  .pj__skills { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pj__panel {
+    flex: 1 1 460px;
+    min-width: 0;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--soft);
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+  }
+  .pj__grid { background-size: 16.666% 25%; }
+  .pj__arc { width: 130%; aspect-ratio: 1; left: -70%; top: -30%; }
+  .pj__tl { position: absolute; left: 12px; top: 12px; }
+  .pj__br { position: absolute; right: 12px; bottom: 12px; }
+  .pj__vert { position: absolute; right: 12px; top: 12px; writing-mode: vertical-rl; }
+  .pj__px { position: relative; }
+  .pj__px :global(svg) { max-width: 60vw; height: auto; }
+
+  .pj__tabs {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 40;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-top: clamp(48px, 6vw, 80px);
+  }
+  .pj__tabsin { padding-top: 12px; padding-bottom: 12px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .pj__tab {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 6px;
+    border: 1px solid var(--line2);
+    background: transparent;
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .pj__tab:hover { border-color: var(--fg); }
+  .pj__tabdot { background: var(--dot); }
+  .pj__tabn { opacity: .7; }
+  .pj__tab[aria-pressed='true'] { background: var(--btn); color: var(--btnfg); border-color: var(--btn); }
+  .pj__tab[aria-pressed='true'][data-tab='tous'] .pj__tabdot { background: #FF8204; }
+
+  .pj__list { padding-top: clamp(32px, 4vw, 48px); }
+  .pj__grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 20px; }
+  .pj__grid-cards :global(.pc__title) { font-size: clamp(22px, 2vw, 26px); }
+  .pj__ph {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 420px;
+    padding: 24px;
+    border: 1px dashed color-mix(in srgb, var(--fg) 30%, transparent);
+    border-radius: 8px;
+  }
+  .pj__phb { display: flex; flex-direction: column; gap: 10px; }
+  .pj__pht { font-size: 26px; font-weight: 500; letter-spacing: -.03em; line-height: 1.12; }
+  .pj__phs { font-size: 15px; line-height: 1.5; color: var(--muted); }
+
+  .pj__others { padding-top: clamp(72px, 9vw, 120px); padding-bottom: clamp(72px, 9vw, 120px); }
+  .pj__oh { display: block; margin-bottom: 20px; }
+  .pj__otiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .pj__otile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    transition: background-color .2s;
+  }
+  .pj__otile:hover { background: var(--card); }
+  .pj__olab { display: flex; align-items: center; gap: 14px; font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
+</style>
+
+<script>
+  import { DOMAINS } from '../../data/domaines';
+
+  function initProjets() {
+    const root = document.querySelector<HTMLElement>('[data-dom-root]');
+    if (!root) return;
+    const status = root.querySelector<HTMLElement>('[data-dom-status]');
+    const rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const valid = (k: string | null): k is keyof typeof DOMAINS => !!k && k in DOMAINS;
+
+    const q = new URLSearchParams(location.search).get('domaine');
+    const sync = (k: keyof typeof DOMAINS, announce = false) => {
+      root.dataset.dom = k;
+      root.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === k)));
+      if (announce && status) status.textContent = `Filtre : ${DOMAINS[k].label}.`;
+    };
+    sync(valid(q) ? q : 'tous');
+
+    const go = (k: keyof typeof DOMAINS) => {
+      sync(k, true);
+      try {
+        const u = new URL(location.href);
+        if (k === 'tous') u.searchParams.delete('domaine');
+        else u.searchParams.set('domaine', k);
+        history.replaceState(history.state, '', u);
+      } catch {}
+      window.scrollTo({ top: 0, behavior: rm ? 'auto' : 'smooth' });
+    };
+
+    root.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((b) =>
+      b.addEventListener('click', () => { if (valid(b.dataset.tab ?? null)) go(b.dataset.tab as keyof typeof DOMAINS); }),
+    );
+    root.querySelectorAll<HTMLAnchorElement>('[data-goto]').forEach((a) =>
+      a.addEventListener('click', (e) => {
+        const k = a.dataset.goto ?? null;
+        if (!valid(k)) return;
+        e.preventDefault();
+        go(k);
+      }),
+    );
+  }
+  document.addEventListener('astro:page-load', initProjets);
+</script>

@@ -37,7 +37,7 @@ const etude = z.object({
   schema: z.object({
     source: z.object({ nom: z.string(), detail: z.string() }),
     lien: z.object({ haut: z.string(), bas: z.string() }),
-    cible: z.object({ nom: z.string(), elements: z.array(z.string()), note: z.string() }),
+    cible: z.object({ nom: z.string(), elements: z.array(z.string()), note: z.string(), icone: z.enum(ARTS).optional() }),
   }),
   stack: z.array(z.object({ label: z.string(), couleur: z.string() })),
 });

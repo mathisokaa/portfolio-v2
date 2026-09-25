@@ -64,6 +64,7 @@ etude:
       nom: Proxmox VE · pool tank
       elements: [tank/media, tank/backups, tank/vm, tank/k3s]
       note: zfs send → site 02
+      icone: backup
   stack:
     - { label: Proxmox VE, couleur: "#318E68" }
     - { label: ZFS, couleur: "#318E68" }
