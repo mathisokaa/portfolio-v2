@@ -66,10 +66,9 @@ export const METIERS: Metier[] = [
   },
 ];
 
-// Dates à confirmer.
 export const PARCOURS = [
-  { dates: '2024 → auj.', titre: 'Administrateur systèmes — ESN', texte: 'Parcs clients Windows Server, Hyper-V et AD. Sauvegardes Veeam, campagnes firmware HPE.', tag: 'Poste' },
-  { dates: '2025 — 2026', titre: 'Licence cybersécurité', texte: 'Sécurité des systèmes et des réseaux, gestion des incidents.', tag: 'Diplôme' },
-  { dates: '2023 — 2024', titre: 'Titre RNCP Administrateur des Infrastructures Sécurisées', texte: "Niveau 6. Conception et sécurisation d'infrastructures.", tag: 'Titre' },
-  { dates: '2021 — 2023', titre: 'BTS SIO option SISR', texte: "Solutions d'infrastructure, systèmes et réseaux.", tag: 'Diplôme' },
+  { dates: '2026 → auj.', titre: 'Administrateur réseaux & systèmes — CMI SERVICES', texte: 'Parcs Windows Server et Hyper-V à Vitrolles.', tag: 'Poste' },
+  { dates: '2024 — 2025', titre: 'Licence cybersécurité', texte: 'MyDigitalSchool. Mémoire sur le protocole AS2 dans les échanges EDI.', tag: 'Diplôme' },
+  { dates: '2022 — 2025', titre: 'Transport SALESKY', texte: 'De technicien N1/N2 à administrateur des infrastructures sécurisées.', tag: 'Poste' },
+  { dates: '2022 — 2024', titre: 'BTS SIO', texte: 'Services informatiques aux organisations.', tag: 'Diplôme' },
 ];

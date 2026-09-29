@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PixelArt from '../components/PixelArt.astro';
+import { SITE } from '../data/site';
+import { CV_PAGE, CV_TIMELINE, CV_SKILLS, CV_INTERETS } from '../data/cv';
+
+const nPostes = CV_TIMELINE.filter((e) => e.kind === 'poste').length;
+const nFormations = CV_TIMELINE.length - nPostes;
+---
+<BaseLayout
+  title="CV"
+  description="CV de Mathis Megnan, administrateur réseaux & systèmes : parcours, formations, expériences et compétences. Version PDF téléchargeable."
+  footerLinks={[
+    { href: '/', label: 'Accueil' },
+    { href: '/projets', label: 'Projets' },
+    { href: '/veille', label: 'Veille' },
+    { href: '/#contact', label: 'Contact' },
+  ]}
+>
+  <div class="cv">
+    <section class="cv__hero container">
+      <div class="micro cv__crumbs">
+        <a href="/" class="cv__back"><span class="cv__larr" aria-hidden="true">←</span>Accueil / CV</a>
+        <span class="cv__now"><span class="sq cv__nowdot"></span>En poste</span>
+      </div>
+      <div class="cv__row">
+        <div class="cv__left">
+          <span class="micro">Curriculum vitae</span>
+          <h1 class="cv__h1" data-rt>
+            <span class="rl-wrap"><span class="rl" data-rl>Mathis</span></span>
+            <span class="rl-wrap"><span class="rl" data-rl>Megnan.</span></span>
+          </h1>
+          <p class="lead">
+            {CV_PAGE.poste} chez {CV_PAGE.employeur}, {CV_PAGE.ville}, depuis {CV_PAGE.depuis}.
+            Environnement {CV_PAGE.environnement}, avec un objectif à terme : Linux, open source et automatisation.
+          </p>
+          <div class="cv__btns">
+            <a class="btn btn--lg btn--primary" href={SITE.cvPdf} download="CV-Mathis-Megnan.pdf">
+              Télécharger le CV <span class="btn__arrow" aria-hidden="true">↓</span>
+            </a>
+            <span class="micro cv__fmt">PDF · coordonnées incluses</span>
+          </div>
+        </div>
+        <div class="cv__panel" aria-hidden="true">
+          <div class="grid-bg cv__grid"></div>
+          <div class="arc cv__arc"></div>
+          <span class="micro micro--cell cv__tl">Fig. CV</span>
+          <span class="micro micro--cell cv__br">{String(nPostes).padStart(2, '0')} postes · {String(nFormations).padStart(2, '0')} formations</span>
+          <div class="cv__px"><PixelArt art="infra" ramp="blue" px={13} /></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv__tl-sec container" aria-labelledby="cv-parcours">
+      <div class="cv__sechead">
+        <span class="micro">01 — Parcours</span>
+        <h2 id="cv-parcours" class="h2" data-rt>
+          <span class="rl-wrap"><span class="rl" data-rl>Études et postes.</span></span>
+        </h2>
+        <ul class="cv__legend" aria-label="Légende">
+          <li class="micro"><span class="sq sq--6 cv__dot cv__dot--poste"></span>Expérience</li>
+          <li class="micro"><span class="sq sq--6 cv__dot cv__dot--formation"></span>Formation</li>
+        </ul>
+      </div>
+
+      <ol class="cv__list">
+        {CV_TIMELINE.map((e) => (
+          <li class:list={['cv__item', `cv__item--${e.kind}`, { 'is-current': e.current }]}>
+            <span class="cv__date micro">{e.dates}</span>
+            <span class="cv__rail" aria-hidden="true"><span class="cv__node"></span></span>
+            <div class="cv__body">
+              <div class="cv__top">
+                <h3 class="cv__title">{e.titre}</h3>
+                <span class="tag">{e.tag}</span>
+              </div>
+              <span class="cv__lieu">{e.lieu}</span>
+              {e.texte && <p class="cv__txt">{e.texte}</p>}
+              {e.puces && (
+                <ul class="cv__puces">
+                  {e.puces.map((p) => <li>{p}</li>)}
+                </ul>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="cv__sk container" aria-labelledby="cv-comp">
+      <div class="cv__sechead">
+        <span class="micro">02 — Compétences</span>
+        <h2 id="cv-comp" class="h2" data-rt>
+          <span class="rl-wrap"><span class="rl" data-rl>La boîte à outils.</span></span>
+        </h2>
+      </div>
+      <div class="cv__grid">
+        {CV_SKILLS.map((g) => (
+          <div class="cv__cell">
+            <span class="micro">{g.label}</span>
+            <ul class="cv__chips">
+              {g.items.map((i) => <li class="chip">{i}</li>)}
+            </ul>
+          </div>
+        ))}
+        <div class="cv__cell">
+          <span class="micro">Centres d'intérêt</span>
+          <ul class="cv__chips">
+            {CV_INTERETS.map((i) => <li class="chip">{i}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv__end container" aria-label="Télécharger le CV">
+      <div class="cv__endin">
+        <div class="cv__endtxt">
+          <span class="micro">Un recruteur pressé ?</span>
+          <p class="cv__endh">Le CV tient sur un PDF.</p>
+        </div>
+        <div class="cv__btns">
+          <a class="btn btn--lg btn--primary" href={SITE.cvPdf} download="CV-Mathis-Megnan.pdf">
+            Télécharger le CV <span class="btn__arrow" aria-hidden="true">↓</span>
+          </a>
+          <a class="btn btn--lg btn--secondary" href="/#contact">Me contacter</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .cv__hero { padding-top: clamp(24px, 3vw, 40px); }
+  .cv__crumbs { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  .cv__back { display: flex; gap: 10px; }
+  .cv__back:hover { color: var(--fg); }
+  .cv__larr { color: #FA500F; }
+  .cv__now { display: flex; align-items: center; gap: 8px; }
+  .cv__nowdot { background: #318E68; }
+  .cv__row { display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 56px); margin-top: clamp(28px, 4vw, 48px); align-items: stretch; }
+  .cv__left { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
+  .cv__h1 { font-size: clamp(52px, 7vw, 108px); font-weight: 500; line-height: .93; letter-spacing: -.045em; }
+  .cv__btns { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+  .cv__panel {
+    flex: 1 1 460px; min-width: 0; position: relative; aspect-ratio: 4 / 3;
+    border-radius: 8px; overflow: hidden; background: var(--soft);
+    display: grid; place-items: center; border: 1px solid var(--line);
+  }
+  .cv__panel .cv__grid { background-size: 16.666% 25%; }
+  .cv__arc { width: 130%; aspect-ratio: 1; left: -70%; top: -30%; }
+  .cv__tl { position: absolute; left: 12px; top: 12px; }
+  .cv__br { position: absolute; right: 12px; bottom: 12px; }
+  .cv__px { position: relative; }
+  .cv__px :global(svg) { max-width: 60vw; height: auto; }
+
+  .cv__tl-sec, .cv__sk { padding-top: clamp(72px, 9vw, 120px); }
+  .cv__sechead { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 32px; margin-bottom: clamp(28px, 4vw, 48px); }
+  .cv__sechead .micro:first-child { flex: 1 1 100%; }
+  .cv__sechead .h2 { flex: 1 1 auto; }
+  .cv__legend { list-style: none; padding: 0; display: flex; gap: 20px; }
+  .cv__legend li { display: flex; align-items: center; gap: 8px; }
+  .cv__dot--poste { background: #FA500F; }
+  .cv__dot--formation { background: #0082E6; }
+
+  /* Chronologie : date | rail | contenu */
+  .cv__list { list-style: none; padding: 0; border-top: 1px solid var(--line2); }
+  .cv__item {
+    display: grid;
+    grid-template-columns: 150px 24px minmax(0, 1fr);
+    gap: 0 clamp(16px, 2.4vw, 32px);
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .cv__date { padding-top: 6px; color: var(--fg); }
+  .cv__rail { position: relative; display: block; }
+  .cv__rail::before { content: ''; position: absolute; left: 50%; top: -28px; bottom: -28px; width: 1px; background: var(--line2); }
+  .cv__item:first-child .cv__rail::before { top: 10px; }
+  .cv__item:last-child .cv__rail::before { bottom: calc(100% - 10px); }
+  .cv__node { position: absolute; left: 50%; top: 6px; width: 10px; height: 10px; margin-left: -5px; background: var(--bg); border: 2px solid var(--nc); }
+  .cv__item--poste { --nc: #FA500F; }
+  .cv__item--formation { --nc: #0082E6; }
+  .cv__item.is-current .cv__node { background: var(--nc); }
+  .cv__body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .cv__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  .cv__title { font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -.025em; line-height: 1.15; }
+  .cv__lieu { font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+  .cv__txt { font-size: 15px; line-height: 1.5; color: var(--muted); max-width: 44em; }
+  .cv__puces { list-style: none; padding: 0; display: grid; gap: 6px; max-width: 44em; margin-top: 4px; }
+  .cv__puces li { position: relative; padding-left: 18px; font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .cv__puces li::before { content: ''; position: absolute; left: 0; top: .62em; width: 6px; height: 6px; background: var(--nc); }
+
+  .cv__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .cv__sk .cv__grid { margin-top: 0; }
+  .cv__cell { display: flex; flex-direction: column; gap: 16px; padding: 24px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .cv__chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .cv__end { padding-top: clamp(72px, 9vw, 120px); padding-bottom: clamp(72px, 9vw, 120px); }
+  .cv__endin {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
+    padding: clamp(24px, 4vw, 48px); border-radius: 8px; background: var(--soft); border: 1px solid var(--line);
+  }
+  .cv__endtxt { display: flex; flex-direction: column; gap: 12px; }
+  .cv__endh { font-size: clamp(28px, 3.4vw, 46px); font-weight: 500; letter-spacing: -.035em; line-height: 1; }
+
+  @media (max-width: 699.98px) {
+    .cv__item { grid-template-columns: 20px minmax(0, 1fr); }
+    .cv__date { grid-column: 2; grid-row: 1; padding-top: 0; margin-bottom: 8px; }
+    .cv__rail { grid-column: 1; grid-row: 1 / span 2; }
+    .cv__body { grid-column: 2; grid-row: 2; }
+    .cv__node { top: 0; }
+    .cv__item:first-child .cv__rail::before { top: 4px; }
+    .cv__item:last-child .cv__rail::before { bottom: calc(100% - 4px); }
+  }
+</style>

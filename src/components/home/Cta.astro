@@ -24,7 +24,7 @@ const cells = Array.from({ length: 96 }, (_, i) => ({ tint: i % 3 === 0 ? '#C400
     <div class="cta__row">
       <div class="cta__btns">
         <a href={`mailto:${SITE.email}`} class="btn btn--lg cta__b1">Me contacter <span class="btn__arrow" aria-hidden="true">→</span></a>
-        <a href={SITE.cv} class="btn btn--lg cta__b2">Télécharger le CV</a>
+        <a href={SITE.cvPdf} download class="btn btn--lg cta__b2">Télécharger le CV</a>
       </div>
       <a href={`mailto:${SITE.email}`} class="cta__mail">{SITE.email}</a>
     </div>
