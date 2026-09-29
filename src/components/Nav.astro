@@ -41,7 +41,7 @@ const links = [
       <ThemeToggle />
       {variant === 'home' && (
         <a href={SITE.cv} class="btn btn--sm btn--secondary nav__cv">
-          CV <span class="nav__pdf">PDF</span>
+          CV
         </a>
       )}
       <a href="/#contact" class="btn btn--sm btn--primary nav__cta">Me contacter</a>
@@ -101,7 +101,6 @@ const links = [
   .nav__dot { background: #FA500F; }
 
   .nav__actions { display: flex; align-items: center; gap: 8px; }
-  .nav__pdf { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
 
   .nav__menu {
     display: none;

@@ -18,7 +18,7 @@ Site statique Astro + TypeScript, recréé à partir de la maquette haute fidél
 
 ## Où modifier quoi
 
-- **Identité, liens, email, CV** : `src/data/site.ts` (placeholders « Prénom Nom »). Déposer le CV dans `public/cv.pdf`.
+- **Identité, liens, email, CV** : `src/data/site.ts` (url, email, LinkedIn, GitHub encore en placeholder). Le PDF du CV est `public/CV-Mathis-Megnan.pdf`, la page `/cv` se nourrit de `src/data/cv.ts`.
 - **Projets** : un fichier par projet dans `src/content/projets/*.md`. Le champ `etude` (voir `migration-unraid-proxmox.md`) génère la page d'étude de cas ; sans lui, la carte affiche « Étude de cas — bientôt ». Le corps Markdown alimente la section Contexte.
 - **Veille** : une entrée = `src/content/veille/AAAA-MM-JJ-slug.md` (frontmatter `date`, `sujet`, `titre`, `source`, `url` ; corps = « À retenir »). La date de mise à jour et la numérotation sont calculées. Radar, sujets et sources : `src/data/veille.ts`. Les entrées actuelles sont des **exemples**.
 - **Accueil** (news, parcours, métiers, stack du marquee) : `src/data/accueil.ts`. Dates du parcours à confirmer.

@@ -9,6 +9,7 @@ import { PARCOURS } from '../../data/accueil';
         <span class="rl-wrap"><span class="rl" data-rl>Du BTS.</span></span>
         <span class="rl-wrap"><span class="rl" data-rl>À la prod.</span></span>
       </h2>
+      <a href="/cv" class="link-arrow pa__cv">Voir mon CV complet <span class="arrow" aria-hidden="true">→</span></a>
     </div>
     <ol class="pa__list">
       {PARCOURS.map((p) => (
@@ -29,6 +30,7 @@ import { PARCOURS } from '../../data/accueil';
   .pa { padding-top: clamp(80px, 10vw, 140px); padding-bottom: clamp(80px, 10vw, 140px); }
   .pa__row { display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 80px); }
   .pa__head { flex: 1 1 300px; display: flex; flex-direction: column; gap: 20px; }
+  .pa__cv { align-self: flex-start; }
   .pa__list { flex: 2 1 560px; list-style: none; padding: 0; border-top: 1px solid var(--line2); }
   .pa__item { display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
   .pa__date { flex: 0 0 150px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding-top: 6px; }
